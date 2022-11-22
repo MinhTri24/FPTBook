@@ -10,6 +10,7 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
+    public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public virtual DbSet<Category> Categories { get; set; }
     public virtual DbSet<Book> Books { get; set; }
 }
