@@ -12,7 +12,7 @@ public class Book
     public int Price { get; set; }
     public DateTime UpdateDate { get; set; }
     
-    [Required]
+
     public int CategoryId { get; set; }
     public Category Category { get; set; }
     

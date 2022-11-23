@@ -13,4 +13,6 @@ public class ApplicationDbContext : IdentityDbContext
     public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public virtual DbSet<Category> Categories { get; set; }
     public virtual DbSet<Book> Books { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
+    public virtual DbSet<OrderedBook> OrderedBooks { get; set; }
 }
