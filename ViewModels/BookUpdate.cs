@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace FPTBook.ViewModels.Book;
 
-namespace FPTBook.Models;
-
-public class Book
+public class BookUpdate
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -10,17 +8,6 @@ public class Book
     public string Image { get; set; }
     public string Summary { get; set; }
     public int Price { get; set; }
-    public DateTime UpdateDate { get; set; }
-    
-
     public int CategoryId { get; set; }
-    public Category Category { get; set; }
     public string CategoryName { get; set; }
-
-    public Book()
-    {
-        UpdateDate = DateTime.Now;
-    }
-    
-    
 }
