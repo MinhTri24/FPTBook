@@ -33,23 +33,32 @@ public class OrderedBookController : Controller
     [HttpPost]
     public IActionResult Create(int bookId, string userId)
     {
-        // var quantity = 0;
-        var existingBook = _context.OrderedBooks.Find(bookId);
-        // if (existingBook != null)
-        // {
-        //     quantity += 1;
-        // }
-
-        OrderedBook orderedBook = new OrderedBook()
+        var existingBook = _context.OrderedBooks.FirstOrDefault(x => x.BookId == bookId);
+        if (existingBook != null)
         {
+            existingBook.Quantity += 1;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        OrderedBook orderedBook = new OrderedBook()
+        { 
             UserId = userId,
             BookId = bookId,
             Quantity = 1,
             IsOrdered = false
         };
-        var saveBook = _context.OrderedBooks.Add(orderedBook);
+            var saveBook = _context.OrderedBooks.Add(orderedBook);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    [HttpPost]
+    public IActionResult Delete(int id)
+    {
+        var orderedBook = _context.OrderedBooks.Find(id);
+        var deleteBook = _context.OrderedBooks.Remove(orderedBook);
         _context.SaveChanges();
         return RedirectToAction("Index");
     }
-    
 }

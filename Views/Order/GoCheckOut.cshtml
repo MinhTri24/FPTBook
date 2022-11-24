@@ -1,21 +1,19 @@
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model List<OrderedBook>
 @inject UserManager<ApplicationUser> _userManager
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
+
 @{
-    var userId = _userManager.GetUserId(User);
+    
     <h1 class="text-dark mb-4">Book Cart</h1>
     <div class="card-header py-3 ">
         <button type="button" class="btn btn-info">
             <a class="text-primary m-0 font-weight-bold" asp-controller="Book" asp-action="Index">Back</a>
         </button>
-        <button type="button" class="btn btn-info">
-            <a class="text-primary m-0 font-weight-bold" asp-controller="Order" asp-action="GoCheckOut" asp-route-id="userId">Go to check out</a>
-        </button>
-
     </div>
 }
 <table class="table my-0" id="dataTable">
@@ -24,13 +22,19 @@
         <th>Title</th>
         @* <th>Image</th> *@
         <th>Quantity</th>
-        <th></th>
+        <th>Price</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model){
+    @{
+        var totalPrice = 0;
+    
+    @foreach (var item in Model)
+    {
         if (!item.IsOrdered)
         {
+            var subprice = item.Book.Price * item.Quantity;
+            totalPrice += subprice;
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Book.Title)
@@ -38,12 +42,26 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
-                <td>
-                    <a asp-controller="OrderedBook" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-                <td></td>
+                <td>Sub-price:     @subprice</td>
             </tr>
+
         }
+    }
+        var userId = _userManager.GetUserId(User);
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Total Price: @totalPrice</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td><button type="button" class="btn btn-info">
+                <a class="text-primary m-0 font-weight-bold" asp-controller="Order" asp-action="CheckOut" asp-route-id="userId">Check out</a>
+            </button>
+                </td>
+        </tr>
     }
     </tbody>
 </table>
+
