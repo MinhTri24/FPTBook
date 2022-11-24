@@ -1,0 +1,27 @@
+﻿@model List<Book>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h1>Book</h1>
+
+<button type="button" class="btn btn-info">
+    <a class="text-primary m-0 font-weight-bold" asp-controller="Book" asp-action="Create">Create</a>
+</button>
+
+@foreach (var item in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <img src="@item.Image" class="card-img-top" alt="Book">
+        <div class="card-body">
+            <h5 class="card-title">@item.Title</h5>
+            <h6 class="card-title">@item.Author</h6>
+            <h7 class="card-title">@item.CategoryId</h7>
+            <p class="card-text">@item.Summary</p>
+            <h8 class="card-title">@item.Price</h8>
+            <a class="btn btn-primary" asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+        </div>
+    </div>
+}
