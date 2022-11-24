@@ -1,0 +1,44 @@
+@model List<OrderedBook>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h1 class="text-dark mb-4">Book Cart</h1>
+    <div class="card-header py-3 ">
+        <button type="button" class="btn btn-info">
+            <a class="text-primary m-0 font-weight-bold" asp-controller="Category" asp-action="Create">Create</a>
+        </button>
+    </div>
+
+<table class="table my-0" id="dataTable">
+    <thead>
+    <tr>
+        <th>Title</th>
+        @* <th>Image</th> *@
+        <th>Quanti</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model){
+        if (!item.IsOrdered)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                @* <td> *@
+                @*     @Html.DisplayFor(modelItem => item.Book.Image) *@
+                @* </td> *@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                @* <td> *@
+                @*     $1$ <a asp-controller="OrderedBook" asp-action="Delete" asp-route-id="@item.Id">Delete</a> #1# *@
+                @* </td> *@
+            </tr>
+        }
+    }
+    </tbody>
+</table>
