@@ -1,4 +1,7 @@
 ﻿@model List<Book>
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject UserManager<ApplicationUser> _userManager;
 
 @{
     ViewBag.Title = "title";
@@ -13,6 +16,7 @@
 
 @foreach (var item in Model)
 {
+    var userId = _userManager.GetUserId(User);
     <div class="card" style="width: 18rem;">
         <img src="@item.Image" class="card-img-top" alt="Book">
         <div class="card-body">
@@ -22,6 +26,11 @@
             <p class="card-text">@item.Summary</p>
             <h8 class="card-title">@item.Price</h8>
             <a class="btn btn-primary" asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+            @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
+            {
+                bookId = item.Id,
+                userId
+            })
         </div>
     </div>
 }
