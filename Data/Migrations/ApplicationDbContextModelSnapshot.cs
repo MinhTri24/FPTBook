@@ -151,6 +151,21 @@ namespace FPTBook.Data.Migrations
                     b.ToTable("OrderedBooks");
                 });
 
+            modelBuilder.Entity("FPTBook.Models.OrderOrderedBook", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OrderedBookId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("OrderId", "OrderedBookId");
+
+                    b.HasIndex("OrderedBookId");
+
+                    b.ToTable("OrderOrderedBooks");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -433,6 +448,25 @@ namespace FPTBook.Data.Migrations
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("FPTBook.Models.OrderOrderedBook", b =>
+                {
+                    b.HasOne("FPTBook.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FPTBook.Models.OrderedBook", "OrderedBook")
+                        .WithMany()
+                        .HasForeignKey("OrderedBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("OrderedBook");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

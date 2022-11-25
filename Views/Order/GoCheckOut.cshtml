@@ -57,8 +57,12 @@
             <td></td>
             <td></td>
             <td><button type="button" class="btn btn-info">
-                <a class="text-primary m-0 font-weight-bold" asp-controller="Order" asp-action="CheckOut" asp-route-id="userId">Check out</a>
-            </button>
+                    @Html.ActionLink("Checkout", "CheckOut", "Order", new
+                            {
+                                userId,
+                                totalPrice
+                            })
+                </button>
                 </td>
         </tr>
     }
