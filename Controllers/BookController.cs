@@ -44,15 +44,14 @@ public class BookController : Controller
         return View(bookCategory);
     }
     [HttpPost]
-    public IActionResult Index(string category,string searchString)
+    public IActionResult Index(string bookCategory,string searchString)
     {
         if (_db.Books == null)
         {
             return Problem("Entity set 'MvcMovieContext.Book'  is null.");
         }
-        IQueryable<string> categoryQuery = from m in _db.Books
-            orderby m.Category.Name
-            select m.Category.Name;
+        var categoriesName = from n in _db.Categories
+            select n.Name;
         var books = from b in _db.Books
             select b;
         if (!string.IsNullOrEmpty(searchString))
@@ -60,14 +59,14 @@ public class BookController : Controller
             books = books.Include(c => c.Category)
                 .Where(s => s.Title!.ToLower().Contains(searchString.ToLower()));
         }
-        if (!string.IsNullOrEmpty(category))
+        if (!string.IsNullOrEmpty(bookCategory))
         {
-            books = books.Where(s => s.Category.Name.Equals(category));
+            books = books.Include(c => c.Category).Where(s => s.Category.Name.Equals(bookCategory));
         }
         BookCategoryViewModels bookCategoryViewModels = new BookCategoryViewModels()
         {
             Books = books.ToList(),
-            Categories = new SelectList(categoryQuery.ToList()),
+            Categories = new SelectList(categoriesName.ToList()),
         };
         return View(bookCategoryViewModels);
         
