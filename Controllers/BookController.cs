@@ -2,6 +2,7 @@
 using FPTBook.Models;
 using FPTBook.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace FPTBook.Controllers;
@@ -14,11 +15,62 @@ public class BookController : Controller
     {
         _db = db;
     }
-    
+
+    [HttpGet]
+    // public IActionResult Index()
+    // {
+    //     var booksListAsync = _db.Books.Include(c => c.Category).ToList();
+    //     var categoriesName = from n in _db.Categories
+    //         select n.Name;
+    //     SelectList categories = new SelectList(categoriesName);
+    //     BookCategoryViewModels bookCategoryViewModels = new BookCategoryViewModels()
+    //     {
+    //         Books = booksListAsync,
+    //         Categoies = categories
+    //     };
+    //     return View(bookCategoryViewModels);
+    // }
+    [HttpGet]
     public IActionResult Index()
     {
-        var books = _db.Books.ToList();
-        return View(books);
+        var booksListAsync = _db.Books.Include(c => c.Category).ToList();
+        var categoriesName = from n in _db.Categories
+            select n.Name;
+        BookCategoryViewModels bookCategory = new BookCategoryViewModels()
+        {
+            Books = booksListAsync,
+            Categories = new SelectList(categoriesName)
+        };
+        return View(bookCategory);
+    }
+    [HttpPost]
+    public IActionResult Index(string category,string searchString)
+    {
+        if (_db.Books == null)
+        {
+            return Problem("Entity set 'MvcMovieContext.Book'  is null.");
+        }
+        IQueryable<string> categoryQuery = from m in _db.Books
+            orderby m.Category.Name
+            select m.Category.Name;
+        var books = from b in _db.Books
+            select b;
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            books = books.Include(c => c.Category)
+                .Where(s => s.Title!.ToLower().Contains(searchString.ToLower()));
+        }
+        if (!string.IsNullOrEmpty(category))
+        {
+            books = books.Where(s => s.Category.Name.Equals(category));
+        }
+        BookCategoryViewModels bookCategoryViewModels = new BookCategoryViewModels()
+        {
+            Books = books.ToList(),
+            Categories = new SelectList(categoryQuery.ToList()),
+        };
+        return View(bookCategoryViewModels);
+        
     }
     
     [HttpGet]

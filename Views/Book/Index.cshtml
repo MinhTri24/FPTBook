@@ -1,4 +1,4 @@
-﻿@model List<Book>
+﻿@model BookCategoryViewModels
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject UserManager<ApplicationUser> _userManager;
@@ -8,29 +8,93 @@
     Layout = "_Layout";
 }
 
-<h1>Book</h1>
+@* <h1>Book</h1> *@
+@* *@
+@* <button type="button" class="btn btn-info"> *@
+@*     <a class="text-primary m-0 font-weight-bold" asp-controller="Book" asp-action="Create">Create</a> *@
+@* </button> *@
+@* *@
+@* @foreach (var item in Model) *@
+@* { *@
+@*     var userId = _userManager.GetUserId(User); *@
+@*     <div class="card" style="width: 18rem;"> *@
+@*         <img src="@item.Image" class="card-img-top" alt="Book"> *@
+@*         <div class="card-body"> *@
+@*             <h5 class="card-title">@item.Title</h5> *@
+@*             <h6 class="card-title">@item.Author</h6> *@
+@*             <h7 class="card-title">@item.CategoryId</h7> *@
+@*             <p class="card-text">@item.Summary</p> *@
+@*             <h8 class="card-title">@item.Price</h8> *@
+@*             <a class="btn btn-primary" asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">Detail</a> *@
+@*             @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new *@
+@*             { *@
+@*                 bookId = item.Id, *@
+@*                 userId *@
+@*             }) *@
+@*         </div> *@
+@*     </div> *@
+@* } *@
 
-<button type="button" class="btn btn-info">
-    <a class="text-primary m-0 font-weight-bold" asp-controller="Book" asp-action="Create">Create</a>
-</button>
+<h1>Index</h1>
 
-@foreach (var item in Model)
-{
-    var userId = _userManager.GetUserId(User);
-    <div class="card" style="width: 18rem;">
-        <img src="@item.Image" class="card-img-top" alt="Book">
-        <div class="card-body">
-            <h5 class="card-title">@item.Title</h5>
-            <h6 class="card-title">@item.Author</h6>
-            <h7 class="card-title">@item.CategoryId</h7>
-            <p class="card-text">@item.Summary</p>
-            <h8 class="card-title">@item.Price</h8>
-            <a class="btn btn-primary" asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
-            @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
-            {
-                bookId = item.Id,
-                userId
-            })
-        </div>
-    </div>
-}
+<p>
+    <button type="button" class="btn btn-info">
+        <a class="text-primary m-0 font-weight-bold" asp-controller="Book" asp-action="Create">Create New</a>
+    </button>
+    
+</p>
+<form asp-controller="Book" asp-action="Index">
+    <p>
+        <select asp-for="BookCategory" asp-items="Model.Categories">
+                    <option>All</option>
+                </select>
+        Title: <input type="text" name="SearchString"/>
+        <input type="submit" value="Filter"/>
+    </p>
+</form>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Author
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Price
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Books) 
+    {
+        var userId = _userManager.GetUserId(User);
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+                @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
+                          { bookId = item.Id,
+                              userId,
+                          }, null)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
