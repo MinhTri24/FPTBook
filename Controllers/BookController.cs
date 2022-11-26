@@ -16,7 +16,7 @@ public class BookController : Controller
         _db = db;
     }
 
-    [HttpGet]
+    /*[HttpGet]*/
     // public IActionResult Index()
     // {
     //     var booksListAsync = _db.Books.Include(c => c.Category).ToList();
@@ -114,12 +114,9 @@ public class BookController : Controller
     }
     
     [HttpGet]
-    public IActionResult Create(int id)
+    public IActionResult Create()
     {
-        BookCreate formBookCreate = new BookCreate()
-        {
-            CategoryId = id
-        };
+        BookCreate formBookCreate = new BookCreate();
         return View(formBookCreate);
     }
     
@@ -135,17 +132,16 @@ public class BookController : Controller
         Book newBook = new Book()
         {
             CategoryId = bookCreate.CategoryId,
-            Category = categoryInDb,
             Title = bookCreate.Title,
             Author = bookCreate.Author,
             Image = bookCreate.Image,
-            Summary = bookCreate.Summary,
+            Summary = bookCreate.Summary, 
             Price = bookCreate.Price,
             UpdateDate = DateTime.Now
         };
         _db.Books.Add(newBook);
         _db.SaveChanges();
-        return RedirectToAction("Detail", "Book", new { id = bookCreate.CategoryId });
+        return RedirectToAction("Detail", "Book", new { id = newBook.Id});
     }
     
     [HttpGet]
@@ -160,7 +156,8 @@ public class BookController : Controller
             Author = books.Author,
             Image = books.Image,
             Summary = books.Summary,
-            Price = books.Price
+            Price = books.Price,
+            CategoryId = books.CategoryId
         };
         return View(formBookUpdate);
     }
@@ -174,6 +171,7 @@ public class BookController : Controller
         book.Image = bookUpdate.Image;
         book.Summary = bookUpdate.Summary;
         book.Price = bookUpdate.Price;
+        book.CategoryId = bookUpdate.CategoryId;
         book.UpdateDate = DateTime.Now;
         _db.SaveChanges();
         string bookId = $"{bookUpdate.Id}";
