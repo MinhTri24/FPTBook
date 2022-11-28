@@ -35,21 +35,21 @@ public class OrderedBookController : Controller
     {
         var existingBook = _context.OrderedBooks.FirstOrDefault(x => x.BookId == bookId && x.UserId == userId && x.IsOrdered == false);
         if (existingBook == null)
-            {
-                OrderedBook orderedBook = new OrderedBook()
-                { 
-                    UserId = userId,
-                    BookId = bookId,
-                    Quantity = 1,
-                    IsOrdered = false
-                };
-                var saveBook = _context.OrderedBooks.Add(orderedBook);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            existingBook.Quantity += 1;
+        {
+            OrderedBook orderedBook = new OrderedBook()
+            { 
+                UserId = userId,
+                BookId = bookId,
+                Quantity = 1,
+                IsOrdered = false
+            };
+            var saveBook = _context.OrderedBooks.Add(orderedBook);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+        existingBook.Quantity += 1;
+        _context.SaveChanges();
+        return RedirectToAction("Index");
     }
 
     [HttpGet]

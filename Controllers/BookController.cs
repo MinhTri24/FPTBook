@@ -1,5 +1,6 @@
 ﻿using FPTBook.Data;
 using FPTBook.Models;
+using FPTBook.ViewModels;
 using FPTBook.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -122,7 +123,7 @@ public class BookController : Controller
     [HttpPost]
     public IActionResult Create(BookCreate bookCreate)
     {
-        Category? categoryInDb = _db.Categories.Find(bookCreate.CategoryId);
+        Category? categoryInDb = _db.Categories.FirstOrDefault(n => n.Id == bookCreate.CategoryId);
         if (categoryInDb == null)
         {
             return Content("Error!");
