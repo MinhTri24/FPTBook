@@ -1,8 +1,124 @@
-﻿@{
+﻿@model List<Book>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .header img{
+        max-width: 1265px;
+        max-height: 840.422px;
+    }
+    .header .brand{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 36px;
+    }
+    .header .brand span:first-child{
+        background-color: black;
+        padding: 8px 16px;
+        filter: opacity(50%);
+    }
+    .header{
+        position: relative;
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
+    }
+    .container{
+        max-width: 1700px;
+    }
+    a
+    {
+        color: #000000;
+        text-decoration: none;
+    }
+    .col-sm
+    {
+        max-width: 18rem;
+        max-height: 23rem;
+        margin-right: 0;
+        margin-left: 0;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    .card
+    {
+         width: 16.125rem;
+         height: 17rem;
+    }
+    .img-thumbnail
+    {
+        width: 258px;
+        height: 280px;
+        max-width: 258px;
+        max-height: 270px;
+        opacity: 1;
+        display: block;
+        transition: .5s ease;
+        backface-visibility: hidden;
+    }
+    .card-body {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /*-ms-transform: translate(-50%, -50%);*/
+        text-align: center;
+        width: 250px;
+        padding-bottom: 0;
+    }
+    .card:hover .img-thumbnail
+    {
+        opacity: 0.3;
+    }
+    .card:hover .card-body
+    {
+        opacity: 1;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <img src="https://static.nationalgeographic.co.uk/files/styles/image_3200/public/webalamy_e8gcn6.webp?w=1600&h=1063" alt="">
+        <div class="brand">
+            <span><b>UNIVERSITY OF GREENWICH</b></span>
+            <br/>
+            <span>Welcome to Greenwich E-Book Website</span>
+        </div>
+    </div>
+    <div class="row">
+        @{
+            foreach (var book in Model)
+            {
+                <div class="col-sm">
+                    <div class="card">
+                        <a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id"><img src="@book.Image" class="img-thumbnail" alt="..."></a>
+                        <div class="card-body">
+                            <h5 class="card-title"><a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id">@book.Title</a></h5>
+                            <h3 class="fst-italic">@book.Price$</h3>
+                            @* @{ *@
+                            @*     if (User.IsInRole(RoleApp.Staff)) *@
+                            @*     { *@
+                            <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Update" asp-route-id="@book.Id">Update</a>
+                            <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+                            @* } *@
+                            @* else *@
+                            @* { *@
+                            <a style="color: #FFFFFF;" class="btn btn-info">Request</a>
+                            <a style="color: #FFFFFF;" class="btn btn-info">Add to Cart</a>
+                            @*     } *@
+                            @* } *@
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="container" style="text-align: end;">
+        <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Index">&rarr; More book</a>
+    </div>
 </div>
