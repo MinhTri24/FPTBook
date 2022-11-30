@@ -122,7 +122,7 @@ public class OrderController : Controller
             var saveOrderOrderedBook = _context.OrderOrderedBooks.Add(newOrderOrderedBook);
         }
         _context.SaveChanges();
-        TempData["SUCCESS"] = "Document created successfully";
-        return RedirectToAction("GoCheckOut");
+        TempData["SUCCESS"] = "Checked out successfully";
+        return RedirectToAction("Index", "Home");
     }
 }
