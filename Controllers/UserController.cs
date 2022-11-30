@@ -19,7 +19,7 @@ public class UserController : Controller
     }
 
     /*[AllowAnonymous]*/
-    /*[Authorize(Roles = "OWNER")]*/
+    /*[Authorize(Roles = "Owner")]*/
     [HttpGet]
     public IActionResult Index()
     {

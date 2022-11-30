@@ -1,0 +1,85 @@
+﻿@model OrderDetail
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@*<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+            @{
+                var totalPrice = 0;
+                @foreach (var item in Model.OrderOrderedBooks)
+                {
+                    var subTotal = item.OrderedBook.Book.Price * item.OrderedBook.Quantity;
+                    totalPrice += subTotal;
+                    <tr>
+                        <td class="align-middle">
+                            <img class="rounded-circle" src="@item.OrderedBook.Book.Image" alt="@item.OrderedBook.Book.Title" style="max-width: 150px"/>
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.OrderedBook.Book.Title)
+                        </td>
+                        <td class="align-middle">
+                            @subTotal
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Total Price: @totalPrice</td>
+                </tr>
+            }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>*@
+
+<div>
+    @{
+        
+        
+        @*<dl class="row">
+            <img src="@Model.OrderOrderedBook.OrderedBook.Book.Image" class="card-img-top" alt="Book">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OrderOrderedBook.OrderedBook.Book.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OrderOrderedBook.OrderedBook.Book.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.OrderOrderedBook.OrderedBook.Quantity)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.OrderOrderedBook.OrderedBook.Quantity)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Book.Category.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Book.Category.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Book.UpdateDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Book.UpdateDate)
+            </dd>
+        </dl>*@
+    }
+    
+</div>
