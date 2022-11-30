@@ -25,61 +25,16 @@ public class OrderController : Controller
         return View(order);
     }
 
-    /*[HttpGet]
+    [HttpGet]
     public IActionResult Detail(int orderId, string userId)
     {
-        
-        var orderOrderedBooks = _context.OrderOrderedBooks.Where(o => o.OrderId == orderId);
-        foreach (var VARIABLE in COLLECTION)
-        {
-            
-        }
-        /*var orderedId = from o in _context.OrderOrderedBooks select o.OrderId;
-        var order = from o in _context.Orders select o.Id;
-        
-        
-
-        var ordered = _context.OrderOrderedBooks.Where(o => o.OrderId == orderedId);
-
-        if (ordered == null)
-        {
-            return Content("Error");
-        }
-
-        /*var orders = _context.Orders
-            .Include(o => o.OrderedBooks)
-            .FirstOrDefault(d => d.Id == id);
-        var orderedBook = _context.OrderOrderedBooks
-            .Include(o => o.Order)
-            .ThenInclude(b => b!.OrderedBooks)
-            .FirstOrDefault(d => d.OrderId == id);#2#
-
-        /*if (order != null)
-        {
-            var orderRelated = _context.OrderOrderedBooks.Where(o => o.OrderId == orderedBook!.OrderId);
-            OrderDetail orderDetail = new OrderDetail()
-            {
-                OrderOrderedBook = orderedBook,
-                OrderOrderedBooks = new List<OrderOrderedBook>(orderRelated)
-            };
-            return View(orderDetail);
-        }#2#
-
-        OrderDetail orderDetail = new OrderDetail()
-        {
-            Order = ordered.ToList()
-        };#1#
-        return Content("adada");
+        var data = _context.Orders
+            .Include(x => x.OrderOrderedBooks)
+            .ThenInclude(y => y.OrderedBook)
+            .ThenInclude(z => z.Book)
+            .Where(o => o.Id == orderId);
+        return View(data);
     }
-
-    
-    /*public OrderViewModels GetOrderId(int id)
-    {
-        var _orders = _context.Orders.Select(order => new OrderViewModels()
-        {
-            BookTitles = order.O
-        })
-    }#1#*/
 
     [HttpGet]
     public IActionResult GoCheckOut(string id)
