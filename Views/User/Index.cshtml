@@ -7,50 +7,58 @@
 
 <form asp-controller="User" asp-action="Index">
     <p>
-        Title: <input type="text" name="SearchString"/>
-        <input type="submit" value="Filter"/>
+        Title: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
     </p>
 </form>
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            ID
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-            Full Name
-        </th>
-        <th>
-            Home Adress
-        </th>
-        <th>
-            Password
-        </th>
-    </tr>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Home Adress
+            </th>
+            <th>
+                Password
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Users) 
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fullname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HomeAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordHash)
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HomeAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PasswordHash)
+                </td>
+                <td class="text-center"><a asp-controller="User" asp-action="ChangeUserPassword" asp-route-id=@item.Id
+                    class="btn btn-primary">
+                        <i class="bi bi-pencil-square"></i> Change Password
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

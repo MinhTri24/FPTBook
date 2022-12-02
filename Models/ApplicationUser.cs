@@ -8,4 +8,4 @@ public class ApplicationUser : IdentityUser
     public string Fullname { get; set; }
     [PersonalData]
     public string HomeAddress { get; set; }
-}
+}   
