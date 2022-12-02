@@ -34,7 +34,7 @@
         if (!item.IsOrdered)
         {
             var subprice = item.Book.Price * item.Quantity;
-            totalPrice += subprice;
+            totalPrice += subprice; 
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Book.Title)

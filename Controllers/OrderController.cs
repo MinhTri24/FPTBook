@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using FPTBook.Data;
 using FPTBook.Models;
+using FPTBook.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,23 @@ public class OrderController : Controller
         _userManager = userManager;
     }
 
+    public IActionResult Index()
+    {
+        var order = _context.Orders.ToList();
+        return View(order);
+    }
+
+    [HttpGet]
+    public IActionResult Detail(int orderId, string userId)
+    {
+        var data = _context.Orders
+            .Include(x => x.OrderOrderedBooks)
+            .ThenInclude(y => y.OrderedBook)
+            .ThenInclude(z => z.Book)
+            .Where(o => o.Id == orderId);
+        return View(data);
+    }
+
     [HttpGet]
     public IActionResult GoCheckOut(string id)
     {
@@ -26,6 +44,7 @@ public class OrderController : Controller
             .Where(u => u.UserId == userId).Include(x => x.Book).ToList();
         return View(orderedBook);
     }
+    
     [HttpGet]
     [HttpPost]
     public IActionResult CheckOut(string userId, int totalPrice)
@@ -58,7 +77,7 @@ public class OrderController : Controller
             var saveOrderOrderedBook = _context.OrderOrderedBooks.Add(newOrderOrderedBook);
         }
         _context.SaveChanges();
-        TempData["SUCCESS"] = "Document created successfully";
-        return RedirectToAction("GoCheckOut");
+        TempData["SUCCESS"] = "Checked out successfully";
+        return RedirectToAction("Index", "Home");
     }
 }

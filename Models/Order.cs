@@ -14,7 +14,8 @@ public class Order
     public string UserId { get; set; }
     public ApplicationUser ApplicationUser { get; set; }
     [Required]
-    public virtual ICollection<OrderedBook> OrderedBooks { get; set; }
+    /*public virtual ICollection<OrderedBook> OrderedBooks { get; set; }*/
+    public ICollection<OrderOrderedBook> OrderOrderedBooks { get; set; }
     [DisplayName("Total Price:")]
     public decimal TotalPrice { get; set; }
     [DisplayName("Is Checked Out:")]

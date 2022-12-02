@@ -1,4 +1,4 @@
-﻿namespace FPTBook.ViewModels.Book;
+﻿namespace FPTBook.ViewModels;
 
 public class BookCreate
 {

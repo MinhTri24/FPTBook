@@ -1,0 +1,62 @@
+﻿Quoc Vo Minh
+@model IQueryable<Order>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <table class="table">
+            <thead>
+            <tr class="text-center">
+                <th>Image</th>
+                <th>Title</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+            </tr>
+            </thead>
+            <tbody>
+            @{
+                var totalPrice = 0;
+                @foreach (var order in Model)
+                {
+                    foreach (var item in order.OrderOrderedBooks)
+                    {
+                        var subTotal = item.OrderedBook.Book.Price * item.OrderedBook.Quantity;
+                            
+                        <tr>
+                            <td >
+                                <img class="rounded-circle" src="@item.OrderedBook.Book.Image" alt="@item.OrderedBook.Book.Title" style="max-width: 150px"/>
+                            </td>
+                            <td >
+                                @Html.DisplayFor(modelItem => item.OrderedBook.Book.Title)
+                            </td>
+                            <td>
+                                @item.OrderedBook.Quantity
+                            </td>
+                            <td>
+                                @item.OrderedBook.Book.Price
+                            </td>
+                            <td >
+                                @subTotal
+                            </td>
+                        </tr>
+                        totalPrice += subTotal;
+                    }
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Total Price: @totalPrice</td>
+                    </tr>
+                }
+            }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

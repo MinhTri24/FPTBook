@@ -2,7 +2,7 @@
 
 public class Role
 {
-    public const string Admin = "ADMIN";
-    public const string Owner = "OWNER";
-    public const string Customer = "CUSTOMER";
+    public const string Admin = "Admin";
+    public const string Owner = "Owner";
+    public const string Customer = "Customer";
 }

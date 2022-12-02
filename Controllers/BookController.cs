@@ -88,7 +88,7 @@ public class BookController : Controller
         if (book != null)
         {
             var bookRelated = _db.Books.Where(c => c.CategoryId == book.CategoryId).ToList();
-            bookRelated.Remove(book);
+            /*bookRelated.Remove(book);*/
             BookDetail bookDetail = new BookDetail()
             {
                 Book = book,
