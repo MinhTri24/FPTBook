@@ -1,0 +1,38 @@
+﻿@model List<FPTBook.Models.CategoryRequest>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h1 class="text-dark mb-4">Categories Request</h1>
+
+@*<h1>@Model.Count</h1>*@
+<table class="table my-0" id="dataTable">
+    <thead>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Date</th>
+    <th></th>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @(Html.DisplayFor(modelItem => item.Name))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                <a class="btn btn-primary" asp-action="Confirm" asp-route-id="@item.Id">Confirm</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Reject</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
