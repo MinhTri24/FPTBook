@@ -1,6 +1,7 @@
 ﻿@model FPTBook.ViewModels.BookCategoryViewModels
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FPTBook.Data
 @inject UserManager<ApplicationUser> _userManager;
 
 @{
@@ -8,93 +9,98 @@
     Layout = "_Layout";
 }
 
-@* <h1>Book</h1> *@
-@* *@
-@* <button type="button" class="btn btn-info"> *@
-@*     <a class="text-primary m-0 font-weight-bold" asp-controller="Book" asp-action="Create">Create</a> *@
-@* </button> *@
-@* *@
-@* @foreach (var item in Model) *@
-@* { *@
-@*     var userId = _userManager.GetUserId(User); *@
-@*     <div class="card" style="width: 18rem;"> *@
-@*         <img src="@item.Image" class="card-img-top" alt="Book"> *@
-@*         <div class="card-body"> *@
-@*             <h5 class="card-title">@item.Title</h5> *@
-@*             <h6 class="card-title">@item.Author</h6> *@
-@*             <h7 class="card-title">@item.CategoryId</h7> *@
-@*             <p class="card-text">@item.Summary</p> *@
-@*             <h8 class="card-title">@item.Price</h8> *@
-@*             <a class="btn btn-primary" asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">Detail</a> *@
-@*             @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new *@
-@*             { *@
-@*                 bookId = item.Id, *@
-@*                 userId *@
-@*             }) *@
-@*         </div> *@
-@*     </div> *@
-@* } *@
+<div class="pe-0" style="display: flex; justify-content: space-around; ">
+    <a class="btn btn-dark ps-1 pe-1 mt-2 mb-2 me-2 ms-2 pt-2 pb-2" role="button" style="margin-right: 4px" asp-controller="Book" asp-action="Create">Create New</a>
+    <form asp-controller="Book" asp-action="Index" style="height: fit-content; margin-top: auto;">
+        <p>
+            <select asp-for="BookCategory" asp-items="Model.Categories">
+                <option>All</option>
+            </select>
+            Title: <input type="text" name="SearchString"/>
+            <input type="submit" value="Filter"/>
+        </p>
+    </form>
+</div>
 
-<h1>Index</h1>
-
-<p>
-    <button type="button" class="btn btn-info">
-        <a class="text-primary m-0 font-weight-bold" asp-controller="Book" asp-action="Create">Create New</a>
-    </button>
-    
-</p>
-<form asp-controller="Book" asp-action="Index">
-    <p>
-        <select asp-for="BookCategory" asp-items="Model.Categories">
-                    <option>All</option>
-                </select>
-        Title: <input type="text" name="SearchString"/>
-        <input type="submit" value="Filter"/>
-    </p>
-</form>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            Title Name
-        </th>
-        <th>
-            Author
-        </th>
-        <th>
-            Category
-        </th>
-        <th>
-            Price
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Books) 
-    {
-        var userId = _userManager.GetUserId(User);
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a class="btn btn-primary" asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
-                @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
-                          { bookId = item.Id,
-                              userId,
-                          }, null)
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="container">
+  <div
+    data-reflow-type="product-list"
+    data-reflow-layout="cards"
+    data-reflow-order="date_desc"
+    data-reflow-show="image,name,excerpt,price,pagination"
+  >
+    <div class="reflow-product-list ref-cards">
+      <div class="ref-products">
+        @{
+          foreach (var item in Model.Books)
+          {
+              var userId = _userManager.GetUserId(User);
+              <div class="ref-product">
+                  <div class="ref-media">
+                      <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">
+                          <img
+                              class="ref-image"
+                              src="@item.Image"
+                              loading="lazy"/>
+                      </a>
+                  </div>
+                  <div class="ref-product-data">
+                      <div class="ref-product-info">
+                          <h5 class="ref-name">
+                              <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration: none;">
+                                  Hãy Khiến Tương Lai Biết Ơn Vì Hiện Tại Bạn Đã Cố Gắng Hết Mình (Tặng
+                                  Kèm: 01 Bookmark)
+                              </a>
+                          </h5>
+                          <p class="ref-excerpt"></p>
+                      </div>
+                      <strong class="ref-price">$@item.Price</strong>
+                  </div>
+                  <div class="ref-addons">
+                      @{
+                          if (User.IsInRole(Role.Owner))
+                          {
+                              @Html.ActionLink("Update", "Update", "Book", new
+                              {
+                                  bookId = item.Id,
+                                  userId,
+                              }, new
+                              {
+                                  @class = "ref-button preview-toggle"
+                              })
+                              @Html.ActionLink("Delete", "Delete", "Book", new
+                              {
+                                  bookId = item.Id, userId,
+                              }, new
+                              {
+                                  @class = "ref-button preview-toggle"
+                              })
+                          }
+                          else
+                          {
+                              @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
+                              {
+                                  bookId = item.Id,
+                                  userId,
+                              }, new
+                              {
+                                  @class = "ref-button preview-toggle"
+                              })
+                              @Html.ActionLink("Detail", "Detail", "Book", new
+                              {
+                                  bookId = item.Id,
+                                  userId,
+                              }, new
+                              {
+                                  @class = "ref-button preview-toggle"
+                              })
+                          }
+                      }
+                  </div>
+              </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

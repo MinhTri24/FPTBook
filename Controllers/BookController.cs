@@ -2,6 +2,7 @@
 using FPTBook.Models;
 using FPTBook.ViewModels;
 using FPTBook.ViewModels.Book;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -102,14 +103,20 @@ public class BookController : Controller
     
     public IActionResult Delete(string id)
     {
-        int bookId = Int32.Parse(id);
-        var books = _db.Books.Find(bookId);
-        if (books != null)
-        {
-            _db.Books.Remove(books);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        // if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+        // {
+            if (HttpContext.User.IsInRole(Role.Owner))
+            {
+                int bookId = Int32.Parse(id);
+                var books = _db.Books.Find(bookId);
+                if (books != null)
+                {
+                    _db.Books.Remove(books);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+        // } 
         return RedirectToAction("Index");
     }
     
