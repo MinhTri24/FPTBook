@@ -1,9 +1,11 @@
-﻿@model System.Collections.Generic.List<FPTBook.Models.Order>
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Order>
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
+
 
 <table class="table">
     <thead>

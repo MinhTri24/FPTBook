@@ -1,5 +1,4 @@
-﻿Quoc Vo Minh
-@model IQueryable<Order>
+﻿@model IQueryable<Order>
 
 @{
     ViewBag.Title = "title";
@@ -30,7 +29,7 @@
                             
                         <tr>
                             <td >
-                                <img class="rounded-circle" src="@item.OrderedBook.Book.Image" alt="@item.OrderedBook.Book.Title" style="max-width: 150px"/>
+                                <img src="@item.OrderedBook.Book.Image" alt="@item.OrderedBook.Book.Title" style="max-width: 150px"/>
                             </td>
                             <td >
                                 @Html.DisplayFor(modelItem => item.OrderedBook.Book.Title)

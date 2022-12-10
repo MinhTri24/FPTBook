@@ -21,18 +21,21 @@ public class OrderController : Controller
 
     public IActionResult Index()
     {
-        var order = _context.Orders.ToList();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var order = _context.Orders.ToList().Where(u => u.UserId == userId);
         return View(order);
     }
 
     [HttpGet]
-    public IActionResult Detail(int orderId, string userId)
+    public IActionResult Detail(int orderId)
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var data = _context.Orders
             .Include(x => x.OrderOrderedBooks)
             .ThenInclude(y => y.OrderedBook)
             .ThenInclude(z => z.Book)
-            .Where(o => o.Id == orderId);
+            .Where(o => o.Id == orderId)
+            .Where(u => u.UserId == userId);
         return View(data);
     }
 
