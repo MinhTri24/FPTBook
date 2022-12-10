@@ -62,15 +62,22 @@
                           {
                               @Html.ActionLink("Update", "Update", "Book", new
                               {
-                                  bookId = item.Id,
-                                  userId,
+                                  id = item.Id
                               }, new
                               {
                                   @class = "ref-button preview-toggle"
                               })
                               @Html.ActionLink("Delete", "Delete", "Book", new
                               {
-                                  bookId = item.Id, userId,
+                                  id = item.Id
+                              }, new
+                              {
+                                  @class = "ref-button preview-toggle"
+                              })
+                              @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
+                              {
+                                  bookId = item.Id,
+                                  userId,
                               }, new
                               {
                                   @class = "ref-button preview-toggle"
