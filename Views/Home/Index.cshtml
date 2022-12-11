@@ -100,18 +100,10 @@
                         <div class="card-body">
                             <h5 class="card-title"><a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id">@book.Title</a></h5>
                             <h3 class="fst-italic">@book.Price$</h3>
-                            @* @{ *@
-                            @*     if (User.IsInRole(RoleApp.Staff)) *@
-                            @*     { *@
                             <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Update" asp-route-id="@book.Id">Update</a>
                             <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
-                            @* } *@
-                            @* else *@
-                            @* { *@
                             <a style="color: #FFFFFF;" class="btn btn-info">Request</a>
                             <a style="color: #FFFFFF;" class="btn btn-info">Add to Cart</a>
-                            @*     } *@
-                            @* } *@
                         </div>
                     </div>
                 </div>

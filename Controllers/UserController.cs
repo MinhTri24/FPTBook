@@ -32,63 +32,60 @@ public class UserController : Controller
         };
         return View(usersDetail);
     }
-
-     [HttpGet]
-     
-		public IActionResult ChangeUserPassword(string id)
-		{
-			var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == id);
-
-			if (userInDb is null)
-			{
-				return NotFound();
-			}
-            UpdatePassword newForm = new UpdatePassword(){
-                Id = userInDb.Id,
-                Password = userInDb.PasswordHash
-            };
-			
-			return View(newForm);
-		}
-
-
+    
     [HttpPost]
     public IActionResult Index(string searchString)
     {
-        var users = from e in _db.ApplicationUsers select e;
-        if (!string.IsNullOrEmpty(searchString))
-        {
-            users = users.Where(s => s.Email.Contains(searchString));
-        }
+	    var users = from e in _db.ApplicationUsers select e;
+	    if (!string.IsNullOrEmpty(searchString))
+	    {
+		    users = users.Where(s => s.Email.Contains(searchString));
+	    }
 
-        UsersDetail usersDetail = new UsersDetail()
-        {
-            Users = users.ToList()
-        };
+	    UsersDetail usersDetail = new UsersDetail()
+	    {
+		    Users = users.ToList()
+	    };
         
-        return View(usersDetail);
+	    return View(usersDetail);
     }
 
-    [HttpPost]
-		public IActionResult ChangeUserPassword(UpdatePassword user)
+	[HttpGet] 
+	public IActionResult ChangeUserPassword(string id)
+	{
+		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == id);
+
+		if (userInDb is null)
 		{
-			var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == user.Id);
-
-			// if (userInDb is null)
-			// {
-			// 	return BadRequest();
-			// }
-
-			// if (ModelState.IsValid)
-			// {
-			// 	return View(userInDb);
-			// }
-			
-			// userInDb.PasswordHash = passwordHasher.HashPassword(null, user.PasswordHash);
-            userInDb.PasswordHash = _userManager.PasswordHasher.HashPassword(userInDb,user.Password);
-            var result = _userManager.UpdateAsync(userInDb);
-			// _db.SaveChanges();
-			
-			return RedirectToAction("Index");
+			return NotFound();
 		}
+        UpdatePassword newForm = new UpdatePassword(){
+            Id = userInDb.Id,
+            Password = userInDb.PasswordHash
+        };
+        return View(newForm);
+	}
+     
+	[HttpPost]
+	public IActionResult ChangeUserPassword(UpdatePassword user)
+	{
+		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == user.Id);
+
+		// if (userInDb is null)
+		// {
+		// 	return BadRequest();
+		// }
+
+		// if (ModelState.IsValid)
+		// {
+		// 	return View(userInDb);
+		// }
+		
+		// userInDb.PasswordHash = passwordHasher.HashPassword(null, user.PasswordHash);
+        userInDb.PasswordHash = _userManager.PasswordHasher.HashPassword(userInDb,user.Password);
+        var result = _userManager.UpdateAsync(userInDb);
+		// _db.SaveChanges();
+		
+		return RedirectToAction("Index");
+	}
 }

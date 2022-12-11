@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model IEnumerable<Order>
+@using FPTBook.Data
+@model FPTBook.ViewModels.OrdersDetail
+@inject UserManager<ApplicationUser> _userManager
 
 @{
     ViewBag.Title = "title";
@@ -13,6 +15,12 @@
         <th>
             OrderId
         </th>
+        @if (User.IsInRole(Role.Owner))
+        {
+            <th>
+                Customer
+            </th>
+        }
         <th>
             Total Price
         </th>
@@ -23,25 +31,34 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) 
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.ActionLink("Detail", "Detail", "Order", new
-                          { orderId = item.Id,
-                              userId = item.UserId,
-                          }, null)
-            </td>
-        </tr>
+    @{
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                @if (User.IsInRole(Role.Owner))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApplicationUser.Fullname)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.ActionLink("Detail", "Detail", "Order", new
+                    {
+                        orderId = item.Id,
+                        userId = item.UserId,
+                    }, null)
+                </td>
+            </tr>
+        }
     }
     </tbody>
 </table>

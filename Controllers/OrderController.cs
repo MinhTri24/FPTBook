@@ -21,21 +21,40 @@ public class OrderController : Controller
 
     public IActionResult Index()
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var order = _context.Orders.ToList().Where(u => u.UserId == userId);
-        return View(order);
+        if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+        {
+            if (HttpContext.User.IsInRole(Role.Owner))
+            {
+                var user = from u in _context.ApplicationUsers select u;
+                var order = from o in _context.Orders select o;
+                OrdersDetail orderDetail = new OrdersDetail()
+                {
+                    Users = user.ToList(),
+                    Orders = order.ToList()
+                };
+                return View(orderDetail);
+            }
+        }
+        var users = from u in _context.ApplicationUsers select u;
+        var orders = from o in _context.Orders select o;
+        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        OrdersDetail ordersDetail = new OrdersDetail()
+        {
+            Users = users.ToList().Where(u => u.Id == userId),
+            Orders = orders.ToList().Where(o => o.UserId == userId)
+        };
+        return View(ordersDetail);
     }
 
     [HttpGet]
     public IActionResult Detail(int orderId)
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var data = _context.Orders
             .Include(x => x.OrderOrderedBooks)
             .ThenInclude(y => y.OrderedBook)
             .ThenInclude(z => z.Book)
-            .Where(o => o.Id == orderId)
-            .Where(u => u.UserId == userId);
+            .Where(o => o.Id == orderId);
+
         return View(data);
     }
 
