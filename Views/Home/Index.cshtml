@@ -1,8 +1,8 @@
-﻿@model List<Book>
+﻿@using FPTBook.Data
+@model List<Book>
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <style>
     .header img{
         max-width: 1265px;
@@ -29,6 +29,46 @@
     .container{
         max-width: 1700px;
     }
+    </style>
+
+@if (User.IsInRole(Role.Owner))
+{
+    <div class="container">
+        <div class="header">
+            <img src="https://static.nationalgeographic.co.uk/files/styles/image_3200/public/webalamy_e8gcn6.webp?w=1600&h=1063" alt="">
+            <div class="brand">
+                <span><b>UNIVERSITY OF GREENWICH</b></span>
+                <br/>
+                <span>Welcome Store Owner</span>
+            </div>
+        </div>
+    </div>
+    <div class="btn-toolbar" style="display: flex; justify-content: space-around;">
+        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="Book" asp-action="Index">MANAGE Books</a></div>
+        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="Order" asp-action="Index">MANAGE ORDERS</a></div>
+        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="Category" asp-action="Index">MANAGE CATEGORY</a></div>
+    </div>
+}
+else if (User.IsInRole(Role.Admin))
+{
+    <div class="container">
+        <div class="header">
+            <img src="https://static.nationalgeographic.co.uk/files/styles/image_3200/public/webalamy_e8gcn6.webp?w=1600&h=1063" alt="">
+            <div class="brand">
+                <span><b>UNIVERSITY OF GREENWICH</b></span>
+                <br/>
+                <span>Welcome Admin</span>
+            </div>
+        </div>
+    </div>
+    <div class="btn-toolbar" style="display: flex; justify-content: space-around;">
+        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="User" asp-action="Index">MANAGE User</a></div>
+        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="CategoryRequest" asp-action="Index">MANAGE Category Request</a></div>
+    </div>
+}
+else
+{
+    <style>
     a
     {
         color: #000000;
@@ -81,36 +121,38 @@
     }
 </style>
 
-<div class="container">
-    <div class="header">
-        <img src="https://static.nationalgeographic.co.uk/files/styles/image_3200/public/webalamy_e8gcn6.webp?w=1600&h=1063" alt="">
-        <div class="brand">
-            <span><b>UNIVERSITY OF GREENWICH</b></span>
-            <br/>
-            <span>Welcome to Greenwich E-Book Website</span>
+    <div class="container">
+        <div class="header">
+            <img src="https://static.nationalgeographic.co.uk/files/styles/image_3200/public/webalamy_e8gcn6.webp?w=1600&h=1063" alt="">
+            <div class="brand">
+                <span><b>UNIVERSITY OF GREENWICH</b></span>
+                <br/>
+                <span>Welcome to Greenwich E-Book Website</span>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        @{
-            foreach (var book in Model)
-            {
-                <div class="col-sm">
-                    <div class="card">
-                        <a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id"><img src="@book.Image" class="img-thumbnail" alt="..."></a>
-                        <div class="card-body">
-                            <h5 class="card-title"><a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id">@book.Title</a></h5>
-                            <h3 class="fst-italic">@book.Price$</h3>
-                            <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Update" asp-route-id="@book.Id">Update</a>
-                            <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
-                            <a style="color: #FFFFFF;" class="btn btn-info">Request</a>
-                            <a style="color: #FFFFFF;" class="btn btn-info">Add to Cart</a>
+        <div class="row">
+            @{
+                foreach (var book in Model)
+                {
+                    <div class="col-sm">
+                        <div class="card">
+                            <a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id"><img src="@book.Image" class="img-thumbnail" alt="..."></a>
+                            <div class="card-body">
+                                <h5 class="card-title"><a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id">@book.Title</a></h5>
+                                <h3 class="fst-italic">@book.Price$</h3>
+                                <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Update" asp-route-id="@book.Id">Update</a>
+                                <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
+                                <a style="color: #FFFFFF;" class="btn btn-info">Request</a>
+                                <a style="color: #FFFFFF;" class="btn btn-info">Add to Cart</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
-        }
+        </div>
+        <div class="container" style="text-align: end;">
+            <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Index">&rarr; More book</a>
+        </div>
     </div>
-    <div class="container" style="text-align: end;">
-        <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Index">&rarr; More book</a>
-    </div>
-</div>
+}
+

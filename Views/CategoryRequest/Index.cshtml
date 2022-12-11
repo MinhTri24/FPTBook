@@ -5,9 +5,9 @@
     Layout = "_Layout";
 }
 
-<h1 class="text-dark mb-4">Categories Request</h1>
+@*<h1 class="text-dark mb-4">Categories Request</h1>
 
-@*<h1>@Model.Count</h1>*@
+$1$<h1>@Model.Count</h1>#1#
 <table class="table my-0" id="dataTable">
     <thead>
     <th>Id</th>
@@ -35,4 +35,39 @@
         </tr>
     }
     </tbody>
-</table>
+</table>*@
+
+<div class="container">
+    <h1 class="text-center"><strong>List of categories request</strong><br></h1>
+    <div class="col-md-12 search-table-col" style="padding-top: 0px;margin-top: 0px;">
+        <div class="table-responsive table table-hover table-bordered results">
+            <table class="table table-hover table-bordered">
+                <thead class="bill-header cs">
+                <tr>
+                    <th id="trs-hd-1" class="col-lg-1">No.</th>
+                    <th id="trs-hd-2" class="col-lg-2">NAME</th>
+                    <th id="trs-hd-3" class="col-lg-3">Created at</th>
+                    <th id="trs-hd-4" class="col-lg-3">Action</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                @foreach (var item in Model)
+                {
+                    <tr class="warning no-result">
+                        <td colspan="12"><i class="fa fa-warning"></i>&nbsp; No Result !!!</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td><span style="color: rgb(33, 37, 41);">@(Html.DisplayFor(modelItem => item.Name))</span><br></td>
+                        <td><span style="color: rgb(33, 37, 41); background-color: var(--bs-table-bg);">@Html.DisplayFor(modelItem => item.CreatedAt)</span><br></td>
+                        <td>
+                            <a class="btn btn-success" asp-action="Confirm" asp-route-id="@item.Id">Confirm</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Reject</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
