@@ -79,19 +79,19 @@
               <a class="nav-link me-0" asp-controller="Home" asp-action="Index">HOME</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active ms-0" asp-controller="Book" asp-action="Index">BOOKS</a>
+              <a class="nav-link ms-0" asp-controller="Book" asp-action="Index">BOOKS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link ms-0" asp-controller="Home" asp-action="Help">HELP</a>
             </li>
             @{
               if (User.IsInRole(Role.Owner))
               {
                 <li class="nav-item">
-                  <a class="nav-link active ms-0" asp-controller="Category" asp-action="Index">Category</a>
+                  <a class="nav-link active ms-0" asp-controller="Category" asp-action="Index">CATEGORY</a>
                 </li>
               }
             }
-            <li class="nav-item">
-              <a class="nav-link" href="/help.html">help</a>
-            </li>
           </ul>
           <partial name="_LoginPartial"/>
         </div>
