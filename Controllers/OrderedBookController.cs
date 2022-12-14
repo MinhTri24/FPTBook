@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using FPTBook.Data;
 using FPTBook.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,8 +32,13 @@ public class OrderedBookController : Controller
     }
     [HttpGet]
     [HttpPost]
+    [Authorize]
     public IActionResult Create(int bookId, string userId)
     {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index", "Book");
+        }
         var existingBook = _context.OrderedBooks.FirstOrDefault(x => x.BookId == bookId && x.UserId == userId && x.IsOrdered == false);
         if (existingBook == null)
         {

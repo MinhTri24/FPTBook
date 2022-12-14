@@ -1,5 +1,7 @@
 ﻿@using FPTBook.Data
+@using Microsoft.AspNetCore.Identity
 @model List<Book>
+@inject UserManager<ApplicationUser> _userManager;
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -131,25 +133,58 @@ else
                 <span>Welcome to Greenwich E-Book Website</span>
             </div>
         </div>
-        <div class="row">
-            @{
-                foreach (var book in Model)
-                {
-                    <div class="col-sm">
-                        <div class="card">
-                            <a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id"><img src="@book.Image" class="img-thumbnail" alt="..."></a>
-                            <div class="card-body">
-                                <h5 class="card-title"><a asp-controller="Book" asp-action="Detail" asp-route-id="@book.Id">@book.Title</a></h5>
-                                <h3 class="fst-italic">@book.Price$</h3>
-                                <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Update" asp-route-id="@book.Id">Update</a>
-                                <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">Delete</a>
-                                <a style="color: #FFFFFF;" class="btn btn-info">Request</a>
-                                <a style="color: #FFFFFF;" class="btn btn-info">Add to Cart</a>
-                            </div>
-                        </div>
+        <div class="container">
+            <div
+                data-reflow-type="product-list"
+                data-reflow-layout="cards"
+                data-reflow-order="date_desc"
+                data-reflow-show="image,name,excerpt,price,pagination"
+            >
+                <div class="reflow-product-list ref-cards">
+                    <div class="ref-products">
+                        @{
+                            foreach (var item in Model.GetRange(0,4))
+                            {
+                                var userId = _userManager.GetUserId(User);
+                                <div class="ref-product">
+                                    <div class="ref-media">
+                                        <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">
+                                            <img
+                                                class="ref-image"
+                                                src="@item.Image"
+                                                loading="lazy"/>
+                                        </a>
+                                    </div>
+                                    <div class="ref-product-data">
+                                        <div class="ref-product-info">
+                                            <h5 class="ref-name">
+                                                <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration: none;">
+                                                    Hãy Khiến Tương Lai Biết Ơn Vì Hiện Tại Bạn Đã Cố Gắng Hết Mình (Tặng
+                                                    Kèm: 01 Bookmark)
+                                                </a>
+                                            </h5>
+                                            <p class="ref-excerpt"></p>
+                                        </div>
+                                        <strong class="ref-price">$@item.Price</strong>
+                                    </div>
+                                    <div class="ref-addons">
+                                        @{
+                                            @Html.ActionLink("Detail", "Detail", "Book", new
+                                            {
+                                                bookId = item.Id,
+                                                userId,
+                                            }, new
+                                            {
+                                                @class = "ref-button preview-toggle"
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
                     </div>
-                }
-            }
+                </div>
+            </div>
         </div>
         <div class="container" style="text-align: end;">
             <a style="color: #FFFFFF;" class="btn btn-info" asp-controller="Book" asp-action="Index">&rarr; More book</a>
