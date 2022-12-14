@@ -123,22 +123,27 @@ public class BookController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        BookCreate formBookCreate = new BookCreate();
+        var categoriesName = from n in _db.Categories
+            select n.Name;
+        BookCreate formBookCreate = new BookCreate()
+        {
+            Categories = new SelectList(categoriesName)
+        };
         return View(formBookCreate);
     }
     
     [HttpPost]
     public IActionResult Create(BookCreate bookCreate)
     {
-        Category? categoryInDb = _db.Categories.FirstOrDefault(n => n.Id == bookCreate.CategoryId);
-        if (categoryInDb == null)
-        {
-            return Content("Error!");
-        }
-
+        Category categoryInDb = _db.Categories.FirstOrDefault(n => n.Name == bookCreate.Category);
+        // if (categoryInDb == null)
+        // {
+        //     return Content("Error!");
+        // }
+    
         Book newBook = new Book()
         {
-            CategoryId = bookCreate.CategoryId,
+            CategoryId = categoryInDb.Id,
             Title = bookCreate.Title,
             Author = bookCreate.Author,
             Image = bookCreate.Image,
