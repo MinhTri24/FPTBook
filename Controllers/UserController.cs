@@ -5,13 +5,14 @@ using FPTBook.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FPTBook.Controllers;
 [Authorize]
 public class UserController : Controller
 {
     private readonly ApplicationDbContext _db;
-    private UserManager<ApplicationUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     PasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
     
     public UserController(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
@@ -25,12 +26,32 @@ public class UserController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var users = from e in _db.ApplicationUsers select e;
-        UsersDetail usersDetail = new UsersDetail()
-        {
-            Users = users.ToList()
-        };
-        return View(usersDetail);
+	    var users = from e in _db.ApplicationUsers select e;
+	    UsersDetail usersDetail = new UsersDetail()
+	    {
+		    Users = users.ToList()
+	    };
+	    return View(usersDetail);
+    }
+
+    public IActionResult ViewCustomer()
+    {
+	    var user = (from u in _db.ApplicationUsers
+		    join userRole in _db.UserRoles on u.Id equals userRole.UserId
+		    join role in _db.Roles on userRole.RoleId equals role.Id
+		    where role.Name == "CUSTOMER"
+		    select u).ToList();
+	    return View(user);
+    }
+    
+    public IActionResult ViewOwner()
+    {
+	    var user = (from u in _db.ApplicationUsers
+		    join userRole in _db.UserRoles on u.Id equals userRole.UserId
+		    join role in _db.Roles on userRole.RoleId equals role.Id
+		    where role.Name == "OWNER"
+		    select u).ToList();
+	    return View(user);
     }
     
     [HttpPost]

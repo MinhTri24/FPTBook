@@ -1,4 +1,4 @@
-﻿namespace FPTBook.Data;
+﻿namespace FPTBook;
 
 public class Role
 {
