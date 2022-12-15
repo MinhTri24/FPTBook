@@ -38,6 +38,7 @@
               <div class="ref-product">
                   <div class="ref-media">
                       <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">
+                          <i class="fa fa-trash" style="font-size: 15px"></i>
                           <img
                               class="ref-image"
                               src="@item.Image"
@@ -85,11 +86,23 @@
                               {
                                   @class = "ref-button preview-toggle"
                               })
-                              <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" class="ref-button preview-toggle">Detail</a>
+                              @Html.ActionLink("Detail", "Detail", "Book", new
+                                {
+                                    id = item.Id
+                                }, new
+                                {
+                                    @class = "ref-button preview-toggle"
+                                })
                           }
                           else
                           {
-                              <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" class="ref-button preview-toggle">Detail</a>
+                              @Html.ActionLink("Detail", "Detail", "Book", new
+                                {
+                                    id = item.Id
+                                }, new
+                                {
+                                    @class = "ref-button preview-toggle"
+                                })
                           }
                       }
                   </div>
