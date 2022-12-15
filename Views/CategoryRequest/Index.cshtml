@@ -7,8 +7,8 @@
 
 @*<h1 class="text-dark mb-4">Categories Request</h1>
 
-$1$<h1>@Model.Count</h1>#1#
-<table class="table my-0" id="dataTable">
+    $1$<h1>@Model.Count</h1>#1#
+    <table class="table my-0" id="dataTable">
     <thead>
     <th>Id</th>
     <th>Name</th>
@@ -18,24 +18,24 @@ $1$<h1>@Model.Count</h1>#1#
     <tbody>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @(Html.DisplayFor(modelItem => item.Name))
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                <a class="btn btn-primary" asp-action="Confirm" asp-route-id="@item.Id">Confirm</a>
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Reject</a>
-            </td>
-        </tr>
+    <tr>
+    <td>
+    @Html.DisplayFor(modelItem => item.Id)
+    </td>
+    <td>
+    @(Html.DisplayFor(modelItem => item.Name))
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.CreatedAt)
+    </td>
+    <td>
+    <a class="btn btn-primary" asp-action="Confirm" asp-route-id="@item.Id">Confirm</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Reject</a>
+    </td>
+    </tr>
     }
     </tbody>
-</table>*@
+    </table>*@
 
 <div class="container">
     <h1 class="text-center"><strong>List of categories request</strong><br></h1>
@@ -43,38 +43,38 @@ $1$<h1>@Model.Count</h1>#1#
         <div class="table-responsive table table-hover table-bordered results">
             <table class="table table-hover table-bordered">
                 <thead class="bill-header cs">
-                <tr>
-                    <th id="trs-hd-1" class="col-lg-1">No.</th>
-                    <th id="trs-hd-2" class="col-lg-3">NAME</th>
-                    <th id="trs-hd-3" class="col-lg-2">Created at</th>
-                    <th id="trs-hd-4" class="col-lg-2">Action</th>
-                </tr>
+                    <tr>
+                        <th id="trs-hd-1" class="col-lg-1">No.</th>
+                        <th id="trs-hd-2" class="col-lg-3">NAME</th>
+                        <th id="trs-hd-3" class="col-lg-2">Created at</th>
+                        <th id="trs-hd-4" class="col-lg-2">Action</th>
+                    </tr>
                 </thead>
                 <tbody class="text-center">
-                @foreach (var item in Model)
-                {
-                    <tr class="warning no-result">
-                        <td colspan="12"><i class="fa fa-warning"></i>&nbsp; No Result !!!</td>
-                    </tr>
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                        <td><span style="color: rgb(33, 37, 41);">@(Html.DisplayFor(modelItem => item.Name))</span><br></td>
-                        <td><span style="color: rgb(33, 37, 41); background-color: var(--bs-table-bg);">@Html.DisplayFor(modelItem => item.CreatedAt)</span><br></td>
-                        <td>
-                            <a class="btn btn-success" asp-action="Confirm" asp-route-id="@item.Id">Confirm</a>
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Reject</a>
-                        </td>
-                    </tr>
-                }
+                    @foreach (var item in Model)
+                    {
+                        <tr class="warning no-result">
+                            <td colspan="12"><i class="fa fa-warning"></i>&nbsp; No Result !!!</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                            <td><span style="color: rgb(33, 37, 41);">@(Html.DisplayFor(modelItem => item.Name))</span><br>
+                            </td>
+                            <td><span
+                                style="color: rgb(33, 37, 41); background-color: var(--bs-table-bg);">@Html.DisplayFor(modelItem
+                                => item.CreatedAt)</span><br></td>
+                            <td>
+                                <a class="btn btn-success" asp-action="Confirm" asp-route-id="@item.Id">
+                                    <i class="fas fa-edit" style="font-size: 15px"></i>
+                                </a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                    <i class="fa fa-trash" style="font-size: 15px"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
-@*<a class="btn btn-success" asp-action="Confirm" asp-route-id="@item.Id">
-    <i class="fas fa-edit" style="font-size: 15px"></i>
-</a>
-<a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
-    <i class="fa fa-trash" style="font-size: 15px"></i>
-</a>*@
