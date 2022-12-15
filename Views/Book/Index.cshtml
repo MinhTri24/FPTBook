@@ -10,106 +10,100 @@
 }
 
 <div class="pe-0" style="display: flex; justify-content: space-around; ">
-    <a class="btn btn-dark ps-1 pe-1 mt-2 mb-2 me-2 ms-2 pt-2 pb-2" role="button" style="margin-right: 4px" asp-controller="Book" asp-action="Create">Create New</a>
+    <a class="btn btn-dark ps-1 pe-1 mt-2 mb-2 me-2 ms-2 pt-2 pb-2" role="button" style="margin-right: 4px"
+        asp-controller="Book" asp-action="Create">Create New</a>
     <form asp-controller="Book" asp-action="Index" style="height: fit-content; margin-top: auto;">
         <p>
             <select asp-for="BookCategory" asp-items="Model.Categories">
                 <option>All</option>
             </select>
-            Title: <input type="text" name="SearchString"/>
-            <input type="submit" value="Filter"/>
+            Title: <input type="text" name="SearchString" />
+            <input type="submit" value="Filter" />
         </p>
     </form>
 </div>
 
 <div class="container">
-  <div
-    data-reflow-type="product-list"
-    data-reflow-layout="cards"
-    data-reflow-order="date_desc"
-    data-reflow-show="image,name,excerpt,price,pagination"
-  >
-    <div class="reflow-product-list ref-cards">
-      <div class="ref-products">
-        @{
-          foreach (var item in Model.Books)
-          {
-              var userId = _userManager.GetUserId(User);
-              <div class="ref-product">
-                  <div class="ref-media">
-                      <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">
-                          <i class="fa fa-trash" style="font-size: 15px"></i>
-                          <img
-                              class="ref-image"
-                              src="@item.Image"
-                              loading="lazy"/>
-                      </a>
-                  </div>
-                  <div class="ref-product-data">
-                      <div class="ref-product-info">
-                          <h5 class="ref-name">
-                              <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration: none;">
-                                  Hãy Khiến Tương Lai Biết Ơn Vì Hiện Tại Bạn Đã Cố Gắng Hết Mình (Tặng
-                                  Kèm: 01 Bookmark)
-                              </a>
-                          </h5>
-                          <p class="ref-excerpt"></p>
-                      </div>
-                      <strong class="ref-price">$@item.Price</strong>
-                  </div>
-                  <div class="ref-addons">
-                      @{
-                          if (User.IsInRole(Role.Owner))
-                          {
-                              @Html.ActionLink("Update", "Update", "Book", new
-                              {
-                                  id = item.Id
-                              }, new
-                              {
-                                  @class = "ref-button preview-toggle"
-                              })
-                              @Html.ActionLink("Delete", "Delete", "Book", new
-                              {
-                                  id = item.Id
-                              }, new
-                              {
-                                  @class = "ref-button preview-toggle"
-                              })
-                          }
-                          else if(User.IsInRole(Role.Customer))
-                          {
-                              @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
-                              {
-                                  bookId = item.Id,
-                                  userId,
-                              }, new
-                              {
-                                  @class = "ref-button preview-toggle"
-                              })
-                              @Html.ActionLink("Detail", "Detail", "Book", new
-                                {
-                                    id = item.Id
-                                }, new
-                                {
-                                    @class = "ref-button preview-toggle"
-                                })
-                          }
-                          else
-                          {
-                              @Html.ActionLink("Detail", "Detail", "Book", new
-                                {
-                                    id = item.Id
-                                }, new
-                                {
-                                    @class = "ref-button preview-toggle"
-                                })
-                          }
-                      }
-                  </div>
-              </div>
-          }
-        }
-      </div>
+    <div data-reflow-type="product-list" data-reflow-layout="cards" data-reflow-order="date_desc"
+        data-reflow-show="image,name,excerpt,price,pagination">
+        <div class="reflow-product-list ref-cards">
+            <div class="ref-products">
+                @{
+                    foreach (var item in Model.Books)
+                    {
+                        var userId = _userManager.GetUserId(User);
+                        <div class="ref-product">
+                            <div class="ref-media">
+                                <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">
+                                    <img class="ref-image" src="@item.Image" loading="lazy" />
+                                </a>
+                            </div>
+                            <div class="ref-product-data">
+                                <div class="ref-product-info">
+                                    <h5 class="ref-name">
+                                        <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id"
+                                    style="text-decoration: none;">
+                                            Hãy Khiến Tương Lai Biết Ơn Vì Hiện Tại Bạn Đã Cố Gắng Hết Mình (Tặng
+                                            Kèm: 01 Bookmark)
+                                        </a>
+                                    </h5>
+                                    <p class="ref-excerpt"></p>
+                                </div>
+                                <strong class="ref-price">$@item.Price</strong>
+                            </div>
+                            <div class="ref-addons">
+                                @{
+                                    if (User.IsInRole(Role.Owner))
+                                    {
+                                        @Html.ActionLink("Update", "Update", "Book", new
+                        {
+                        id = item.Id
+                        }, new
+                        {
+                        @class = "ref-button preview-toggle"
+                        })
+                                        @Html.ActionLink("Delete", "Delete", "Book", new
+                        {
+                        id = item.Id
+                        }, new
+                        {
+                        @class = "ref-button preview-toggle"
+                        })
+                                    }
+                                    else if (User.IsInRole(Role.Customer))
+                                    {
+                                        @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
+                        {
+                        bookId = item.Id,
+                        userId,
+                        }, new
+                        {
+                        @class = "ref-button preview-toggle"
+                        })
+                                        @Html.ActionLink("Detail", "Detail", "Book", new
+                        {
+                        id = item.Id
+                        }, new
+                        {
+                        @class = "ref-button preview-toggle"
+                        })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Detail", "Detail", "Book", new
+                        {
+                        id = item.Id
+                        }, new
+                        {
+                        @class = "ref-button preview-toggle"
+                        })
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
     </div>
-  </div>
 </div>
