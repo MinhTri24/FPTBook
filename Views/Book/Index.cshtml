@@ -74,16 +74,8 @@
                               {
                                   @class = "ref-button preview-toggle"
                               })
-                              @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
-                              {
-                                  bookId = item.Id,
-                                  userId,
-                              }, new
-                              {
-                                  @class = "ref-button preview-toggle"
-                              })
                           }
-                          else
+                          else if(User.IsInRole(Role.Customer))
                           {
                               @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
                               {
@@ -93,14 +85,11 @@
                               {
                                   @class = "ref-button preview-toggle"
                               })
-                              @Html.ActionLink("Detail", "Detail", "Book", new
-                              {
-                                  bookId = item.Id,
-                                  userId,
-                              }, new
-                              {
-                                  @class = "ref-button preview-toggle"
-                              })
+                              <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" class="ref-button preview-toggle">Detail</a>
+                          }
+                          else
+                          {
+                              <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" class="ref-button preview-toggle">Detail</a>
                           }
                       }
                   </div>

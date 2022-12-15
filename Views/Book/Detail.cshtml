@@ -1,10 +1,13 @@
-﻿@model BookDetail
+﻿@using Microsoft.AspNetCore.Identity
+@model BookDetail
+@inject UserManager<ApplicationUser> _userManager;
 
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
+@*
 <h1>Details</h1>
 
 <div>
@@ -52,4 +55,79 @@
 <div>
     <a asp-action="Update" asp-route-id="@Model?.Book.Id">Update</a> |
     <a asp-action="Index">Back to List</a>
+</div>*@
+
+<div class="container">
+  <div
+    class="text-start"
+    data-reflow-type="product"
+    data-reflow-product="1836211702"
+    data-reflow-shoppingcart-url="cart.html"
+  >
+    <div class="reflow-product">
+      <div class="ref-media">
+        <div class="ref-preview">
+          <img
+            class="ref-image active"
+            src="@Model.Book.Image"
+            data-reflow-preview-type="image"
+          />
+        </div>
+      </div>
+      <div class="ref-product-data">
+        <h2 class="ref-name">@Model.Book.Title</h2>
+        <div class="ref-categories">
+          <span class="ref-category">@Model.Book.Category.Name</span>
+        </div>
+        <strong class="ref-price">$@Model.Book.Price</strong
+        ><span
+             data-reflow-type="add-to-cart"
+             data-reflow-shoppingcart-url="cart.html"
+             data-reflow-addtocart-text=""
+             data-reflow-product="1836211702"
+         ><div class="reflow-add-to-cart ref-product-controls">
+                  <span
+                      data-reflow-product="1836211702"
+                      data-reflow-max-qty="999"
+                      data-reflow-quantity="1">
+                  </span>
+                  @{
+                      var userId = _userManager.GetUserId(User);
+                      if (User.IsInRole(Role.Owner))
+                      {
+                          @Html.ActionLink("Update", "Update", "Book", new
+                          {
+                              id = Model.Book.Id
+                          }, new
+                          {
+                              @class = "ref-button preview-toggle"
+                          })
+                          @Html.ActionLink("Delete", "Delete", "Book", new
+                          {
+                              id = Model.Book.Id,
+                          }, new
+                          {
+                              @class = "ref-button preview-toggle"
+                          })
+                      }
+                      else if (User.IsInRole(Role.Customer))
+                      {
+                          @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
+                          {
+                              bookId = Model.Book.Id,
+                              userId,
+                          }, new
+                          {
+                              @class = "ref-button"
+                          })
+                      }
+                  }
+              </div>
+          </span>
+          <div class="ref-description">
+          <p>@Model.Book.Summary</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

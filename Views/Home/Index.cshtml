@@ -167,17 +167,8 @@ else
                                         </div>
                                         <strong class="ref-price">$@item.Price</strong>
                                     </div>
-                                    <div class="ref-addons">
-                                        @{
-                                            @Html.ActionLink("Detail", "Detail", "Book", new
-                                            {
-                                                bookId = item.Id,
-                                                userId,
-                                            }, new
-                                            {
-                                                @class = "ref-button preview-toggle"
-                                            })
-                                        }
+                                    <div class="ref-addons text-center">
+                                        <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" class="ref-button preview-toggle">Detail</a>
                                     </div>
                                 </div>
                             }
