@@ -100,6 +100,12 @@ public class OrderController : Controller
         }
         _context.SaveChanges();
         TempData["SUCCESS"] = "Checked out successfully";
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Success");
+    }
+        
+    [HttpGet]
+    public IActionResult Success()
+    {
+        return View();
     }
 }
