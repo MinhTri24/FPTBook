@@ -10,42 +10,56 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
+    @*<div class="col-md-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group text-center">
+            <img id="BookImg" class="border-info" style="max-width: 150px"/>
+        </div>
+    </div>*@
+    <div class="col-md-8">
+        <form asp-action="Create">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group text-center" onchange="ShowPrev">
+                <img id="ProfilePicturePreview"  class="border-info rounded-circle" style="max-width: 150px" />
+            </div>*@
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
                 <input asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control"/>
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control"/>
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
+                <input asp-for="Summary" class="form-control"/>
                 <span asp-validation-for="Summary" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <input asp-for="Price" class="form-control"/>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
                 <br/>
-                <select asp-for="Category" asp-items="Model.Categories" class="form-control" >
+                <select asp-for="Category" asp-items="Model.Categories" class="form-control">
                     <option class="form-control" value="" disabled selected>Click to choose</option>
                 </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
-            </div>       
+            </div>
             <br/>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary"/>
@@ -57,3 +71,21 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@*
+<script>
+    $(document).ready(function () {
+        var output = document.getElementById('ProfilePicturePreview');
+        output.src = $("#Image").val();
+    })
+    $("#Image").on("change", function () {
+        var output = document.getElementById('ProfilePicturePreview');
+        output.src = $(this).target.result;
+    })
+    function ShowPreview(input) {   
+        var image = document.getElementyId("ProfilePicturePreview");
+        image.src = e.target.result;
+    }  
+    
+</script>*@
+
