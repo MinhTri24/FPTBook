@@ -67,4 +67,32 @@ public class OrderedBookController : Controller
         _context.SaveChanges();
         return RedirectToAction("Index");
     }
+    public IActionResult IncreaseQuantity(int id)
+		{
+			var cartBookInDb = _context.OrderedBooks.SingleOrDefault(t => t.Id==id);
+			if (cartBookInDb == null)
+			{
+				return NotFound();
+			}
+
+			cartBookInDb.Quantity ++;
+			_context.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
+		public IActionResult DecreaseQuantity(int id)
+		{
+			var cartBookInDb = _context.OrderedBooks.SingleOrDefault(t => t.Id == id);
+			if (cartBookInDb == null)
+			{
+				return NotFound();
+			}
+			if (cartBookInDb.Quantity > 0)
+			{
+				cartBookInDb.Quantity--;
+			}
+			
+			_context.SaveChanges();
+			return RedirectToAction("Index");
+		}
 }
