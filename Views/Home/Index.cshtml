@@ -9,65 +9,34 @@
 @if (User.IsInRole(Role.Owner))
 {
     <div class="container">
-      <!-- Start: Simple Slider -->
-      <div class="simple-slider">
-        <!-- Start: Slideshow -->
-        <div class="swiper-container">
-          <!-- Start: Slide Wrapper -->
-          <div class="swiper-wrapper">
-            <!-- Start: Slide -->
-            <div
-              class="swiper-slide"
-              style="
+        <div class="simple-slider">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" style="
                     background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png')
                       center center / cover no-repeat;
-                  "
-            >
-              <img
-                class="img-fluid"
-                src="/assets/img/austin-macauley-international-womens-day_1.jpg?h=6590df5912e1695828ecf0308355486d"
-              />
-            </div>
-            <!-- End: Slide --><!-- Start: Slide -->
-            <div
-              class="swiper-slide"
-              style="
+                  ">
+                        <img class="img-fluid" src="/assets/img/austin-macauley-international-womens-day_1.jpg?h=6590df5912e1695828ecf0308355486d" />
+                    </div>
+                    <div class="swiper-slide" style="
                     background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png')
                       center center / cover no-repeat;
-                  "
-            >
-              <img
-                class="img-fluid"
-                src="/assets/img/2061292757_73e8ef5397_b.jpg?h=9fb1eb30b5b8a8e4752617c8a9ec73a8"
-              />
-            </div>
-            <!-- End: Slide --><!-- Start: Slide -->
-            <div
-              class="swiper-slide"
-              style="
+                  ">
+                        <img class="img-fluid" src="/assets/img/2061292757_73e8ef5397_b.jpg?h=9fb1eb30b5b8a8e4752617c8a9ec73a8"/>
+                    </div>
+                    <div class="swiper-slide" style="
                     background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png')
                       center center / cover no-repeat;
-                  "
-            >
-              <img
-                class="img-fluid"
-                src="/assets/img/Books_Web_Slider.jpg?h=3d2bbf29c82fb14ab7f8681d9d0c3add"
-              />
+                  ">
+                        <img class="img-fluid" src="/assets/img/Books_Web_Slider.jpg?h=3d2bbf29c82fb14ab7f8681d9d0c3add" />
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
-            <!-- End: Slide -->
-          </div>
-          <!-- End: Slide Wrapper --><!-- Start: Pagination -->
-          <div class="swiper-pagination"></div>
-          <!-- End: Pagination --><!-- Start: Previous -->
-          <div class="swiper-button-prev"></div>
-          <!-- End: Previous --><!-- Start: Next -->
-          <div class="swiper-button-next"></div>
-          <!-- End: Next -->
         </div>
-        <!-- End: Slideshow -->
-      </div>
-      <!-- End: Simple Slider -->
-      <h1 class="text-center">WELCOME TO FPT BOOK STORE!</h1>
+        <h1 class="text-center">WELCOME TO FPT BOOK STORE!</h1>
     </div>
     <div class="btn-toolbar" style="display: flex; justify-content: space-around;">
         <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="Book" asp-action="Index">MANAGE BOOKS</a></div>
@@ -139,8 +108,8 @@ else if (User.IsInRole(Role.Admin))
       <h1 class="text-center">WELCOME TO FPT BOOK STORE!</h1>
     </div>
     <div class="btn-toolbar" style="display: flex; justify-content: space-around;">
-        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="User" asp-action="ViewCustomer">MANAGE Customerr</a></div>
-        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="User" asp-action="ViewOwner">MANAGE Customerr</a></div>
+        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="User" asp-action="ViewCustomer">MANAGE Customer</a></div>
+        <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="User" asp-action="ViewOwner">MANAGE Store Owner</a></div>
         <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="CategoryRequest" asp-action="Index">MANAGE Category Request</a></div>
     </div>
 }
@@ -148,73 +117,34 @@ else
 {
     <div class="container">
         <div class="container">
-          <!-- Start: Simple Slider -->
-          <div class="simple-slider">
-            <!-- Start: Slideshow -->
-            <div class="swiper-container">
-              <!-- Start: Slide Wrapper -->
-              <div class="swiper-wrapper">
-                <!-- Start: Slide -->
-                <div
-                  class="swiper-slide"
-                  style="
+            <div class="simple-slider">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" style="background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png') center center / cover no-repeat;">
+                            <img class="img-fluid" src="/assets/img/austin-macauley-international-womens-day_1.jpg?h=6590df5912e1695828ecf0308355486d"/>
+                        </div>
+                        <div class="swiper-slide" style="
                         background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png')
                           center center / cover no-repeat;
-                      "
-                >
-                  <img
-                    class="img-fluid"
-                    src="/assets/img/austin-macauley-international-womens-day_1.jpg?h=6590df5912e1695828ecf0308355486d"
-                  />
-                </div>
-                <!-- End: Slide --><!-- Start: Slide -->
-                <div
-                  class="swiper-slide"
-                  style="
+                      ">
+                            <img class="img-fluid" src="/assets/img/2061292757_73e8ef5397_b.jpg?h=9fb1eb30b5b8a8e4752617c8a9ec73a8"/>
+                        </div>
+                        <div class="swiper-slide" style="
                         background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png')
                           center center / cover no-repeat;
-                      "
-                >
-                  <img
-                    class="img-fluid"
-                    src="/assets/img/2061292757_73e8ef5397_b.jpg?h=9fb1eb30b5b8a8e4752617c8a9ec73a8"
-                  />
+                      ">
+                            <img class="img-fluid" src="/assets/img/Books_Web_Slider.jpg?h=3d2bbf29c82fb14ab7f8681d9d0c3add"/>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
-                <!-- End: Slide --><!-- Start: Slide -->
-                <div
-                  class="swiper-slide"
-                  style="
-                        background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png')
-                          center center / cover no-repeat;
-                      "
-                >
-                  <img
-                    class="img-fluid"
-                    src="/assets/img/Books_Web_Slider.jpg?h=3d2bbf29c82fb14ab7f8681d9d0c3add"
-                  />
-                </div>
-                <!-- End: Slide -->
-              </div>
-              <!-- End: Slide Wrapper --><!-- Start: Pagination -->
-              <div class="swiper-pagination"></div>
-              <!-- End: Pagination --><!-- Start: Previous -->
-              <div class="swiper-button-prev"></div>
-              <!-- End: Previous --><!-- Start: Next -->
-              <div class="swiper-button-next"></div>
-              <!-- End: Next -->
             </div>
-            <!-- End: Slideshow -->
-          </div>
-          <!-- End: Simple Slider -->
-          <h1 class="text-center">WELCOME TO FPT BOOK STORE!</h1>
+            <h1 class="text-center">WELCOME TO FPT BOOK STORE!</h1>
         </div>
         <div class="container">
-            <div
-                data-reflow-type="product-list"
-                data-reflow-layout="cards"
-                data-reflow-order="date_desc"
-                data-reflow-show="image,name,excerpt,price,pagination"
-            >
+            <div data-reflow-type="product-list" data-reflow-layout="cards" data-reflow-order="date_desc" data-reflow-show="image,name,excerpt,price,pagination">
                 <div class="reflow-product-list ref-cards">
                     <div class="ref-products">
                         @{
@@ -224,18 +154,14 @@ else
                                 <div class="ref-product">
                                     <div class="ref-media">
                                         <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id">
-                                            <img
-                                                class="ref-image"
-                                                src="@item.Image"
-                                                loading="lazy"/>
+                                            <img class="ref-image" src="@item.Image" loading="lazy"/>
                                         </a>
                                     </div>
                                     <div class="ref-product-data">
                                         <div class="ref-product-info">
                                             <h5 class="ref-name">
                                                 <a asp-controller="Book" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration: none;">
-                                                    Hãy Khiến Tương Lai Biết Ơn Vì Hiện Tại Bạn Đã Cố Gắng Hết Mình (Tặng
-                                                    Kèm: 01 Bookmark)
+                                                    Hãy Khiến Tương Lai Biết Ơn Vì Hiện Tại Bạn Đã Cố Gắng Hết Mình (Tặng Kèm: 01 Bookmark)
                                                 </a>
                                             </h5>
                                             <p class="ref-excerpt"></p>
@@ -250,6 +176,17 @@ else
                                           {
                                               @class = "ref-button preview-toggle"
                                           })
+                                        @if (User.IsInRole(Role.Customer))
+                                        {
+                                            @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
+                                            {
+                                                bookId = item.Id,
+                                                userId,
+                                            }, new
+                                            {
+                                                @class = "ref-button preview-toggle"
+                                            }) 
+                                        }
                                     </div>
                                 </div>
                             }

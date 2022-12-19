@@ -20,7 +20,7 @@ public class CategoryRequestController : Controller
         return View(categories);
     }
     
-    public IActionResult Delete(int id)
+    public IActionResult Reject(int id)
     {
         var categories = _db.CategoryRequests.Find(id);
 
