@@ -53,14 +53,14 @@
                           $@Html.DisplayFor(modelItem => item.Book.Price)
                         </td>
                         <td class="align-middle">
-                          <a asp-controller="OrderedBook" asp-action="DecreaseQuantity" asp-route-id=@item.Id
+                          <a style="text-decoration: none" asp-controller="OrderedBook" asp-action="DecreaseQuantity" asp-route-id=@item.Id
                     class="btn btn-link px-2">-</a>
                         </td>
                         <td class="align-middle">
                       @item.Quantity
                         </td>
                         <td class="align-middle">
-                          <a asp-controller="OrderedBook" asp-action="IncreaseQuantity" asp-route-id=@item.Id
+                          <a style="text-decoration: none" asp-controller="OrderedBook" asp-action="IncreaseQuantity" asp-route-id=@item.Id
                     class="btn btn-link px-2">+</a>
                         </td>
                     @{
@@ -177,7 +177,7 @@
                     </a>
                     <a type="button" class="btn btn-primary btn-lg" asp-controller="Order" asp-action="GoCheckOut"
                   asp-route-id="userId">
-                      Checkout $@total
+                      Go to check out $@total
                     </a>
                   </div>
               }
