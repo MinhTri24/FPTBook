@@ -51,9 +51,8 @@
                                 </div>
                                 <strong class="ref-price">$@item.Price</strong>
                             </div>
-                            <div class="ref-addons">
-                                @{
-                                    if (User.IsInRole(Role.Owner))
+                            <div class="ref-addons" style="display: flex;justify-content: space-evenly">
+                                @if (User.IsInRole(Role.Owner))
                                     {
                                         @Html.ActionLink("Update", "Update", "Book", new
                                         {
@@ -70,16 +69,8 @@
                                             @class = "ref-button preview-toggle"
                                         })
                                     }
-                                    else if (User.IsInRole(Role.Customer))
+                                    else if (User.IsInRole(Role.Admin))
                                     {
-                                        @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
-                                        {
-                                            bookId = item.Id,
-                                            userId,
-                                        }, new
-                                        {
-                                            @class = "ref-button preview-toggle"
-                                        })
                                         @Html.ActionLink("Detail", "Detail", "Book", new
                                         {
                                             id = item.Id
@@ -97,8 +88,15 @@
                                         {
                                             @class = "ref-button preview-toggle"
                                         })
+                                        @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
+                                        {
+                                            bookId = item.Id,
+                                            userId,
+                                        }, new
+                                        {
+                                            @class = "ref-button preview-toggle"
+                                        })
                                     }
-                                }
                             </div>
                         </div>
                     }

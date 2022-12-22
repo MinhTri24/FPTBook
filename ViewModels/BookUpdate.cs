@@ -1,4 +1,6 @@
-﻿namespace FPTBook.ViewModels.Book;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace FPTBook.ViewModels.Book;
 
 public class BookUpdate
 {
@@ -8,6 +10,6 @@ public class BookUpdate
     public string Image { get; set; }
     public string Summary { get; set; }
     public int Price { get; set; }
-    public int CategoryId { get; set; }
-    public string CategoryName { get; set; }
+    public SelectList? Categories { get; set; }
+    public string? Category { get; set; }
 }

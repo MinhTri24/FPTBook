@@ -36,7 +36,7 @@
                 <div class="swiper-button-next"></div>
             </div>
         </div>
-        <h1 class="text-center">WELCOME TO FPT BOOK STORE!</h1>
+        <h1 class="text-center">WELCOME STORE OWNER</h1>
     </div>
     <div class="btn-toolbar" style="display: flex; justify-content: space-around;">
         <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="Book" asp-action="Index">MANAGE BOOKS</a></div>
@@ -105,7 +105,7 @@ else if (User.IsInRole(Role.Admin))
         <!-- End: Slideshow -->
       </div>
       <!-- End: Simple Slider -->
-      <h1 class="text-center">WELCOME TO FPT BOOK STORE!</h1>
+      <h1 class="text-center">WELCOME ADMIN</h1>
     </div>
     <div class="btn-toolbar" style="display: flex; justify-content: space-around;">
         <div class="btn-group" role="group"><a class="btn btn-primary" role="button" asp-controller="User" asp-action="ViewCustomer">MANAGE Customer</a></div>
@@ -170,23 +170,20 @@ else
                                     </div>
                                     <div class="ref-addons text-center">
                                         @Html.ActionLink("Detail", "Detail", "Book", new
-                                          {
+                                        {
                                               id = item.Id
                                           }, new
                                           {
                                               @class = "ref-button preview-toggle"
                                           })
-                                        @if (User.IsInRole(Role.Customer))
+                                        @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
                                         {
-                                            @Html.ActionLink("Add to Cart", "Create", "OrderedBook", new
-                                            {
-                                                bookId = item.Id,
-                                                userId,
-                                            }, new
-                                            {
-                                                @class = "ref-button preview-toggle"
-                                            }) 
-                                        }
+                                            bookId = item.Id,
+                                            userId,
+                                        }, new
+                                        {
+                                            @class = "ref-button preview-toggle"
+                                        })
                                     </div>
                                 </div>
                             }

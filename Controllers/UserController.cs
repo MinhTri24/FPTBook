@@ -20,7 +20,7 @@ public class UserController : Controller
         _db = db;
         _userManager = userManager;
     }
-
+    
     /*[AllowAnonymous]*/
     /*[Authorize(Roles = "Owner")]*/
     [HttpGet]
