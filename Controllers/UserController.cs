@@ -72,41 +72,56 @@ public class UserController : Controller
     }
 
 	[HttpGet] 
-	public IActionResult ChangeUserPassword(string id)
+	public IActionResult ChangeOwnerPassword(string id)
 	{
 		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == id);
 
-		if (userInDb is null)
+		if (_userManager.IsInRoleAsync(userInDb, Role.Owner) != null)
 		{
-			return NotFound();
+			UpdatePassword newForm = new UpdatePassword(){
+				Id = userInDb.Id,
+				Password = userInDb.PasswordHash
+			};
+			return View(newForm);
 		}
-        UpdatePassword newForm = new UpdatePassword(){
-            Id = userInDb.Id,
-            Password = userInDb.PasswordHash
-        };
-        return View(newForm);
+		return NotFound();
 	}
      
 	[HttpPost]
-	public IActionResult ChangeUserPassword(UpdatePassword user)
+	public IActionResult ChangeOwnerPassword(UpdatePassword user)
 	{
 		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == user.Id);
-
-		// if (userInDb is null)
-		// {
-		// 	return BadRequest();
-		// }
-
-		// if (ModelState.IsValid)
-		// {
-		// 	return View(userInDb);
-		// }
 		
-		// userInDb.PasswordHash = passwordHasher.HashPassword(null, user.PasswordHash);
-        userInDb.PasswordHash = _userManager.PasswordHasher.HashPassword(userInDb,user.Password);
+		userInDb.PasswordHash = _userManager.PasswordHasher.HashPassword(userInDb,user.Password);
         var result = _userManager.UpdateAsync(userInDb);
 		// _db.SaveChanges();
+		return RedirectToAction("ViewOwner");
+	}
+	
+	[HttpGet] 
+	public IActionResult ChangeCustomerPassword(string id)
+	{
+		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == id);
+
+		if (_userManager.IsInRoleAsync(userInDb, Role.Customer) != null)
+		{
+			UpdatePassword newForm = new UpdatePassword(){
+				Id = userInDb.Id,
+				Password = userInDb.PasswordHash
+			};
+			return View(newForm);
+		}
+		return NotFound();
+	}
+     
+	[HttpPost]
+	public IActionResult ChangeCustomerPassword(UpdatePassword user)
+	{
+		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == user.Id);
 		
-		return RedirectToAction("Index");
+		userInDb.PasswordHash = _userManager.PasswordHasher.HashPassword(userInDb,user.Password);
+		var result = _userManager.UpdateAsync(userInDb);
+		// _db.SaveChanges();
+		return RedirectToAction("ViewCustomer");
 	}
 }

@@ -51,11 +51,11 @@ public class OrderedBookController : Controller
             };
             var saveBook = _context.OrderedBooks.Add(orderedBook);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Book");
         }
         existingBook.Quantity += 1;
         _context.SaveChanges();
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", "Book");
     }
 
     [HttpGet]
@@ -68,31 +68,34 @@ public class OrderedBookController : Controller
         return RedirectToAction("Index");
     }
     public IActionResult IncreaseQuantity(int id)
+	{
+		var cartBookInDb = _context.OrderedBooks.SingleOrDefault(t => t.Id==id);
+		if (cartBookInDb == null)
 		{
-			var cartBookInDb = _context.OrderedBooks.SingleOrDefault(t => t.Id==id);
-			if (cartBookInDb == null)
-			{
-				return NotFound();
-			}
-
-			cartBookInDb.Quantity ++;
-			_context.SaveChanges();
-			return RedirectToAction("Index");
+			return NotFound();
 		}
 
-		public IActionResult DecreaseQuantity(int id)
+		cartBookInDb.Quantity ++;
+		_context.SaveChanges();
+		return RedirectToAction("Index");
+	}
+
+	public IActionResult DecreaseQuantity(int id)
+	{
+		var cartBookInDb = _context.OrderedBooks.SingleOrDefault(t => t.Id == id);
+		if (cartBookInDb == null)
 		{
-			var cartBookInDb = _context.OrderedBooks.SingleOrDefault(t => t.Id == id);
-			if (cartBookInDb == null)
-			{
-				return NotFound();
-			}
-			if (cartBookInDb.Quantity > 0)
-			{
-				cartBookInDb.Quantity--;
-			}
-			
-			_context.SaveChanges();
-			return RedirectToAction("Index");
+			return NotFound();
 		}
+		if (cartBookInDb.Quantity > 1)
+		{
+			cartBookInDb.Quantity--;
+		}else 
+		{
+			_context.OrderedBooks.Remove(cartBookInDb);
+		}
+		
+		_context.SaveChanges();
+		return RedirectToAction("Index");
+	}
 }

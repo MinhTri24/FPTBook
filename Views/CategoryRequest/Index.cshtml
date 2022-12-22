@@ -5,38 +5,6 @@
     Layout = "_Layout";
 }
 
-@*<h1 class="text-dark mb-4">Categories Request</h1>
-
-    $1$<h1>@Model.Count</h1>#1#
-    <table class="table my-0" id="dataTable">
-    <thead>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Date</th>
-    <th></th>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-    <tr>
-    <td>
-    @Html.DisplayFor(modelItem => item.Id)
-    </td>
-    <td>
-    @(Html.DisplayFor(modelItem => item.Name))
-    </td>
-    <td>
-    @Html.DisplayFor(modelItem => item.CreatedAt)
-    </td>
-    <td>
-    <a class="btn btn-primary" asp-action="Confirm" asp-route-id="@item.Id">Confirm</a>
-    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Reject</a>
-    </td>
-    </tr>
-    }
-    </tbody>
-    </table>*@
-
 <div class="container">
     <h1 class="text-center"><strong>List of categories request</strong><br></h1>
     <div class="col-md-12 search-table-col" style="padding-top: 0px;margin-top: 0px;">
@@ -64,10 +32,10 @@
                                 style="color: rgb(33, 37, 41); background-color: var(--bs-table-bg);">@Html.DisplayFor(modelItem
                                 => item.CreatedAt)</span><br></td>
                             <td>
-                                <a class="btn btn-success" asp-action="Confirm" asp-route-id="@item.Id">
+                                <a class="btn btn-success" asp-action="Confirm" asp-route-id="@item.Id" onclick="return alert('Request has been approved')">
                                     <i class="fas fa-edit" style="font-size: 15px"></i>
                                 </a>
-                                <a class="btn btn-danger" asp-action="Reject" asp-route-id="@item.Id">
+                                <a class="btn btn-danger" asp-action="Reject" asp-route-id="@item.Id" onclick="return alert('Request has been rejected')">
                                     <i class="fa fa-trash" style="font-size: 15px"></i>
                                 </a>
                             </td>
