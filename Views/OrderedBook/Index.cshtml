@@ -23,9 +23,7 @@
               <tr class="text-center">
                 <th scope="col" class="h5">Book</th>
                 <th scope="col">Price</th>
-                <th scope="col"></th>
                 <th scope="col">Quantity</th>
-                <th scope="col"></th>
                 <th scope="col">Subtotal</th>
                 <th scope="col">Action</th>
               </tr>
@@ -52,17 +50,87 @@
                         <td class="align-middle">
                           $@Html.DisplayFor(modelItem => item.Book.Price)
                         </td>
-                        <td class="align-middle">
+                        @*<td class="align-middle">
                           <a style="text-decoration: none" asp-controller="OrderedBook" asp-action="DecreaseQuantity" asp-route-id=@item.Id
                     class="btn btn-link px-2">-</a>
                         </td>
                         <td class="align-middle">
-                      @item.Quantity
+                      
                         </td>
                         <td class="align-middle">
                           <a style="text-decoration: none" asp-controller="OrderedBook" asp-action="IncreaseQuantity" asp-route-id=@item.Id
                     class="btn btn-link px-2">+</a>
+                        </td>*@
+                        <td class="align-middle" id="quantity">
+                          <a class="value-button" asp-controller="OrderedBook" asp-action="DecreaseQuantity" asp-route-id=@item.Id id="decrease">-</a>
+                          <input type="number" id="number" value="@item.Quantity" />
+                          <a class="value-button" asp-action="IncreaseQuantity" asp-controller="OrderedBook" asp-route-id=@item.Id id="increase">+</a>
                         </td>
+                        <style>
+                          #quantity {
+                            width: 300px;
+                            margin: 0 auto;
+                            text-align: center;
+                            padding-top: 50px;
+                          }
+                          
+                          .value-button {
+                            display: inline-block;
+                            border: 1px solid #ddd;
+                            margin: 0px;
+                            width: 40px;
+                            height: 40px;
+                            text-align: center;
+                            vertical-align: middle;
+                            padding: 11px 0;
+                            background: #eee;
+                            -webkit-touch-callout: none;
+                            -webkit-user-select: none;
+                            -khtml-user-select: none;
+                            -moz-user-select: none;
+                            -ms-user-select: none;
+                            user-select: none;
+                            text-decoration: none;
+                            text-decoration-style: solid;
+                            margin-bottom: 1px;
+                          }
+                          
+                          .value-button:hover {
+                            cursor: pointer;
+                          }
+                          
+                          #decrease {
+                            margin-right: -4px;
+                            border-radius: 8px 0 0 8px;
+                          }
+                          
+                          #increase {
+                            margin-left: -4px;
+                            border-radius: 0 8px 8px 0;
+                          }
+                          
+                          #number {
+                            margin: 0px;
+                            padding: 0px;
+                            border: 0px;
+                          }
+                          
+                          input#number {
+                            text-align: center;
+                            border: none;
+                            border-top: 1px solid #ddd;
+                            border-bottom: 1px solid #ddd;
+                            margin: 0px;
+                            width: 40px;
+                            height: 40px;
+                          }
+                          
+                          input[type=number]::-webkit-inner-spin-button,
+                          input[type=number]::-webkit-outer-spin-button {
+                              -webkit-appearance: none;
+                              margin: 0;
+                          }
+                        </style>
                     @{
                       float subtotal = @item.Book.Price * @item.Quantity;
                       total += subtotal;
