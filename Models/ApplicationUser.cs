@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using FPTBook.Data;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,4 +12,6 @@ public class ApplicationUser : IdentityUser
     public string HomeAddress { get; set; }
     /*[PersonalData]
     public Role Roles { get; set; }*/
-}   
+    
+    
+}      

@@ -81,6 +81,6 @@ public class CategoryRequestController : Controller
 
         var removeRequest = _db.CategoryRequests.Remove(categories);
         _db.SaveChanges();
-        return RedirectToAction("Index", "Category");
+        return RedirectToAction("Index", "CategoryRequest");
     }
 }

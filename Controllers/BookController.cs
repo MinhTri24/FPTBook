@@ -161,7 +161,7 @@ public class BookController : Controller
     {
         int bookId = Int32.Parse(id);
         var books = _db.Books.Find(bookId);
-        BookUpdate formBookUpdate = new BookUpdate()
+        /*BookUpdate formBookUpdate = new BookUpdate()
         {
             Id = books.Id,
             Title = books.Title,
@@ -170,6 +170,18 @@ public class BookController : Controller
             Summary = books.Summary,
             Price = books.Price,
             CategoryId = books.CategoryId
+        };*/
+        var categoriesName = from n in _db.Categories
+            select n.Name;
+        BookUpdate formBookUpdate = new BookUpdate()
+        {
+            Id = books.Id,
+            Title = books.Title,
+            Author = books.Author,
+            Image = books.Image,
+            Summary = books.Summary,
+            Price = books.Price,
+            Categories = new SelectList(categoriesName)
         };
         return View(formBookUpdate);
     }
@@ -177,13 +189,14 @@ public class BookController : Controller
     [HttpPost]
     public IActionResult Update(BookUpdate bookUpdate)
     {
+        Category categoryInDb = _db.Categories.FirstOrDefault(n => n.Name == bookUpdate.Category);
         var book = _db.Books.Find(bookUpdate.Id);
         book.Title = bookUpdate.Title;
         book.Author = bookUpdate.Author;
         book.Image = bookUpdate.Image;
         book.Summary = bookUpdate.Summary;
         book.Price = bookUpdate.Price;
-        book.CategoryId = bookUpdate.CategoryId;
+        book.CategoryId = categoryInDb.Id;
         book.UpdateDate = DateTime.Now;
         _db.SaveChanges();
         string bookId = $"{bookUpdate.Id}";

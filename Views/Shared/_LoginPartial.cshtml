@@ -7,12 +7,14 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <a class="btn ms-auto pe-2 ms-2 ps-2 pt-2 pb-2 me-0" role="button" asp-area="Identity" asp-page="/Account/Manage/Index"
-    title="Manage">Hello @User.Identity?.Name</a>
+    <a style="border: 2px solid black !important;margin-right: 10px !important;height: 40px;" 
+       class="btn text-capitalize ms-auto pe-2 ms-2 ps-2 pt-2 pb-2 me-0" role="button" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+        @UserManager.GetUserAsync(User).Result.Fullname
+    </a>
     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
-    asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-        <button type="submit" class="btn ms-auto pe-2 ms-2 ps-2 pt-2 pb-2 me-2">LOG OUT</button>
-        @{
+          asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        
+        @if(!User.IsInRole(Role.Owner) && !User.IsInRole(Role.Admin)){
             var count = 0;
             var userId = UserManager.GetUserId(User);
             var orderBook = _Db.OrderedBooks.Where(o => o.UserId == userId).ToList();
@@ -23,21 +25,43 @@
                     count++;
                 }
             }
-            if (User.IsInRole(Role.Customer))
-            {
-                <a class="btn btn-primary me-2 mt-0 ms-0 pt-2 pe-2 ps-2 mb-2 pb-2" role="button" asp-area="Identity"
-        asp-controller="OrderedBook" asp-action="Index" asp-route-id="userId">CART
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"
-                class="bi bi-cart">
-                        <path
-                    d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z">
-                        </path>
-                    </svg>
-                    <span>@count</span>
-                </a>
-            }
+            <a class="header__cart-wrap btn" asp-area="Identity" asp-controller="OrderedBook" asp-action="Index" asp-route-id="userId">
+                <i class="header__cart-icon fa-solid fa-cart-shopping"></i>
+                <span class="header__cart-notice">@count</span>
+            </a>
+            <style>
+                .header__cart-wrap{
+                    position: relative;
+                    display: inline-block;
+                    padding: 0 2px;
+                    cursor: pointer;
+                    margin: 0 !important;
+                }
+                
+                .header__cart-icon{
+                    font-size: 1.4rem;
+                    color: black;
+                    margin-top: 6px;
+                }
+                
+                .header__cart-notice{
+                    position: absolute;
+                    padding: 2px 5px;
+                    font-size: 1rem;
+                    line-height: 0.8rem;
+                    color: black;
+                    background-color: white;
+                    border-radius: 10px;
+                    border: 2px solid gray;
+                    top: -6px;
+                    right: -10px;
+                }
+            </style>
         }
+        <button type="submit" class="btn ms-auto pe-2 ms-2 ps-2 pt-2 pb-2 me-2">LOG OUT</button>
     </form>
+    
+    
 }
 else
 {
