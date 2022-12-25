@@ -7,63 +7,77 @@
     Layout = "_Layout";
 }
 
-@{
-    
-    <h1 class="text-dark mb-4">Book Cart</h1>
-    <div class="card-header py-3 ">
-        <a class="btn btn-info text-primary m-0 font-weight-bold" asp-controller="Book" asp-action="Index">Back</a>
-    </div>
-}
-<table class="table my-0" id="dataTable">
-    <thead>
-    <tr>
-        <th>Title</th>
-        @* <th>Image</th> *@
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-    </thead>
-    <tbody>
-    @{
-        var totalPrice = 0;
-    
-    @foreach (var item in Model)
-    {
-        if (!item.IsOrdered)
-        {
-            var subprice = item.Book.Price * item.Quantity;
-            totalPrice += subprice; 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Book.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>@subprice</td>
-            </tr>
-
-        }
-    }
-        var userId = _userManager.GetUserId(User);
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Total Price: @totalPrice</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td><button type="button" class="btn btn-info">
-                    @Html.ActionLink("Checkout", "CheckOut", "Order", new
+<div class="container h-100 py-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col">
+            <h1 class="text-dark text-center mb-4">Check out</h1>
+            <div class="table-responsive" id="dataTable">
+                <table class="table my-0" id="dataTable">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col" class="h5">Book</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var totalPrice = 0;
+                            var userId = _userManager.GetUserId(User);
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (!item.IsOrdered)
                             {
-                                userId,
-                                totalPrice
-                            })
-                </button>
-                </td>
-        </tr>
-    }
-    </tbody>
-</table>
-
+                                var subprice = item.Book.Price * item.Quantity;
+                                totalPrice += subprice;
+                                <tr class="text-center">
+                                    <th scope="row">
+                                        <div class="d-flex align-items-center">
+                                            <img src="@item.Book.Image" loading="lazy" class="img-fluid rounded-3"
+                                        style="width: 120px;" alt="Book" />
+                                            <div class="flex-column ms-4">
+                                                @Html.DisplayFor(modelItem => item.Book.Title)
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <td class="align-middle">
+                                        $@Html.DisplayFor(modelItem => item.Book.Price)
+                                    </td>
+                                    <td class="align-middle">
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </td>
+                                    <td class="align-middle">$@subprice</td>
+                                </tr>
+                            }
+                        }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Total Price: $@totalPrice</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <div class="d-flex justify-content-end">
+                                <td>
+                                    <a style="padding: 10px" class="btn btn-light btn-lg me-2" asp-controller="Book"
+                                        asp-action="Index">Back to shopping</a>
+                                </td>
+                                <td><button style="padding: 10px" type="button" class="btn btn-primary btn-lg">Checkout
+                                        @Html.ActionLink("Checkout", "CheckOut", "Order", new
+                                        {
+                                        userId,
+                                        totalPrice
+                                        })
+                                    </button>
+                                </td>
+                            </div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
