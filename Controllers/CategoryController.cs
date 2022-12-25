@@ -1,10 +1,14 @@
 ﻿using FPTBook.Data;
 using FPTBook.Models;
 using FPTBook.ViewModels.Category;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FPTBook.Controllers;
 
+[Authorize]
+[AutoValidateAntiforgeryToken]
 public class CategoryController : Controller
 {
     private ApplicationDbContext _db;
@@ -14,16 +18,18 @@ public class CategoryController : Controller
         _db = db;
     }
 
-    public IActionResult Index()
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Index()
     {
-        var categories = _db.Categories.ToList();
+        var categories = await _db.Categories.ToListAsync();
         return View(categories);
     }
 
-    public IActionResult Detail(string id)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Detail(string id)
     {
         int categoryId = Int32.Parse(id);
-        var categories = _db.Categories.Find(categoryId);
+        var categories = await _db.Categories.FindAsync(categoryId);
 
         if (categories == null)
         {
@@ -33,15 +39,16 @@ public class CategoryController : Controller
         return View(categories);
     }
 
-    public IActionResult Delete(string id)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Delete(string id)
     {
         int categoryId = Int32.Parse(id);
-        var categories = _db.Categories.Find(categoryId);
+        var categories = await _db.Categories.FindAsync(categoryId);
 
         if (categories != null)
         {
             _db.Categories.Remove(categories);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -49,14 +56,16 @@ public class CategoryController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Create()
     {
         CategoryCreate formCreateCategory = new CategoryCreate();
         return View(formCreateCategory);
     }
 
     [HttpPost]
-    public IActionResult Create(CategoryCreate categoryCreate)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Create(CategoryCreate categoryCreate)
     {
         if (ModelState.IsValid)
         {
@@ -64,8 +73,8 @@ public class CategoryController : Controller
             {
                 Name = categoryCreate.Name
             };
-            var savedCategory = _db.Categories.Add(newCategory);
-            _db.SaveChanges();
+            var savedCategory = await _db.Categories.AddAsync(newCategory);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -73,10 +82,11 @@ public class CategoryController : Controller
     }
 
     [HttpGet]
-    public IActionResult Update(string id)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Update(string id)
     {
         int categoryId = Int32.Parse(id);
-        var categories = _db.Categories.Find(categoryId);
+        var categories = await _db.Categories.FindAsync(categoryId);
 
         CategoryUpdate formUpdateCategory = new CategoryUpdate()
         {
@@ -87,11 +97,12 @@ public class CategoryController : Controller
     }
 
     [HttpPost]
-    public IActionResult Update(CategoryUpdate categoryUpdate)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Update(CategoryUpdate categoryUpdate)
     {
-        var category = _db.Categories.Find(categoryUpdate.Id);
+        var category = await _db.Categories.FindAsync(categoryUpdate.Id);
         category.Name = categoryUpdate.Name;
-        _db.SaveChanges();
+        await _db.SaveChangesAsync();
         string cateId = $"{categoryUpdate.Id}";
         return RedirectToAction("Detail", new { id = cateId });
     }

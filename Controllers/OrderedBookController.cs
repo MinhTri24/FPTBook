@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FPTBook.Controllers;
 
+[Authorize]
+[AutoValidateAntiforgeryToken]
 public class OrderedBookController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -21,25 +23,26 @@ public class OrderedBookController : Controller
         _userManager = userManager;
     }
     
-
-    public IActionResult Index()
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Index()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var orderedBook = _context.OrderedBooks
-             .Where(u => u.UserId == userId).Include(x => x.Book).ToList();
+        var orderedBook = await _context.OrderedBooks
+             .Where(u => u.UserId == userId).Include(x => x.Book).ToListAsync();
 
         return View(orderedBook);
     }
     [HttpGet]
     [HttpPost]
     [Authorize]
-    public IActionResult Create(int bookId, string userId)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Create(int bookId, string userId)
     {
         if (!ModelState.IsValid)
         {
             return RedirectToAction("Index", "Book");
         }
-        var existingBook = _context.OrderedBooks.FirstOrDefault(x => x.BookId == bookId && x.UserId == userId && x.IsOrdered == false);
+        var existingBook = await _context.OrderedBooks.FirstOrDefaultAsync(x => x.BookId == bookId && x.UserId == userId && x.IsOrdered == false);
         if (existingBook == null)
         {
             OrderedBook orderedBook = new OrderedBook()
@@ -49,40 +52,44 @@ public class OrderedBookController : Controller
                 Quantity = 1,
                 IsOrdered = false
             };
-            var saveBook = _context.OrderedBooks.Add(orderedBook);
-            _context.SaveChanges();
+            var saveBook = await _context.OrderedBooks.AddAsync(orderedBook);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Book");
         }
         existingBook.Quantity += 1;
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return RedirectToAction("Index", "Book");
     }
 
     [HttpGet]
     [HttpPost]
-    public IActionResult Delete(int id)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Delete(int id)
     {
-        var orderedBook = _context.OrderedBooks.Find(id);
+        var orderedBook = await _context.OrderedBooks.FindAsync(id);
         var deleteBook = _context.OrderedBooks.Remove(orderedBook);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return RedirectToAction("Index");
     }
-    public IActionResult IncreaseQuantity(int id)
+    
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> IncreaseQuantity(int id)
 	{
-		var cartBookInDb = _context.OrderedBooks.SingleOrDefault(t => t.Id==id);
+		var cartBookInDb = await _context.OrderedBooks.SingleOrDefaultAsync(t => t.Id==id);
 		if (cartBookInDb == null)
 		{
 			return NotFound();
 		}
 
 		cartBookInDb.Quantity ++;
-		_context.SaveChanges();
+		await _context.SaveChangesAsync();
 		return RedirectToAction("Index");
 	}
 
-	public IActionResult DecreaseQuantity(int id)
+    [AutoValidateAntiforgeryToken]
+	public async Task<IActionResult> DecreaseQuantity(int id)
 	{
-		var cartBookInDb = _context.OrderedBooks.SingleOrDefault(t => t.Id == id);
+		var cartBookInDb = await _context.OrderedBooks.SingleOrDefaultAsync(t => t.Id == id);
 		if (cartBookInDb == null)
 		{
 			return NotFound();
@@ -95,7 +102,7 @@ public class OrderedBookController : Controller
 			_context.OrderedBooks.Remove(cartBookInDb);
 		}
 		
-		_context.SaveChanges();
+		await _context.SaveChangesAsync();
 		return RedirectToAction("Index");
 	}
 }

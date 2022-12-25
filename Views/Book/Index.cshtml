@@ -15,9 +15,9 @@
     <form asp-controller="Book" asp-action="Index" style="height: fit-content; margin-top: auto;">
         <p>
             <select asp-for="BookCategory" asp-items="Model.Categories">
-                <option>All</option>
+                <option value="">All</option>
             </select>
-            Title: <input type="text" name="SearchString" />
+            Title: <input type="text" asp-for="SearchString" />
             <input type="submit" value="Filter" />
         </p>
     </form>

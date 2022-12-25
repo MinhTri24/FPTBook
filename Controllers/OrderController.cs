@@ -2,12 +2,15 @@ using System.Security.Claims;
 using FPTBook.Data;
 using FPTBook.Models;
 using FPTBook.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FPTBook.Controllers;
 
+[Authorize]
+[AutoValidateAntiforgeryToken]
 public class OrderController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -19,6 +22,7 @@ public class OrderController : Controller
         _userManager = userManager;
     }
 
+    [AutoValidateAntiforgeryToken]
     public IActionResult Index()
     {
         if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
@@ -47,6 +51,7 @@ public class OrderController : Controller
     }
 
     [HttpGet]
+    [AutoValidateAntiforgeryToken]
     public IActionResult Detail(int orderId)
     {
         var data = _context.Orders
@@ -59,20 +64,22 @@ public class OrderController : Controller
     }
 
     [HttpGet]
-    public IActionResult GoCheckOut(string id)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> GoCheckOut(string id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var orderedBook = _context.OrderedBooks
-            .Where(u => u.UserId == userId).Include(x => x.Book).ToList();
+        var orderedBook = await _context.OrderedBooks
+            .Where(u => u.UserId == userId).Include(x => x.Book).ToListAsync();
         return View(orderedBook);
     }
     
     [HttpGet]
     [HttpPost]
-    public IActionResult CheckOut(string userId, int totalPrice)
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> CheckOut(string userId, int totalPrice)
     {
-        var orderedBooks = _context.OrderedBooks
-            .Where(u => u.UserId == userId && u.IsOrdered == false).ToList();
+        var orderedBooks = await _context.OrderedBooks
+            .Where(u => u.UserId == userId && u.IsOrdered == false).ToListAsync();
         foreach (var orderedBook in orderedBooks)
         {
             orderedBook.IsOrdered = true;
@@ -84,9 +91,9 @@ public class OrderController : Controller
             TotalPrice = totalPrice,
             IsCheckedOut = true
         };
-        var saveOrder = _context.Orders.Add(newOrder);
+        var saveOrder = await _context.Orders.AddAsync(newOrder);
         
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         int orderId = newOrder.Id;
         // var order = _context.Orders.Where(o => o.UserId == userId);
         foreach (var orderedBook in orderedBooks)
@@ -98,12 +105,13 @@ public class OrderController : Controller
             };
             var saveOrderOrderedBook = _context.OrderOrderedBooks.Add(newOrderOrderedBook);
         }
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         TempData["SUCCESS"] = "Checked out successfully";
         return RedirectToAction("Success");
     }
         
     [HttpGet]
+    [AutoValidateAntiforgeryToken]
     public IActionResult Success()
     {
         return View();

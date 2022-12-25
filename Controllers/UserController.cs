@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FPTBook.Controllers;
+
 [Authorize]
+[AutoValidateAntiforgeryToken]
 public class UserController : Controller
 {
     private readonly ApplicationDbContext _db;
@@ -24,6 +26,7 @@ public class UserController : Controller
     /*[AllowAnonymous]*/
     /*[Authorize(Roles = "Owner")]*/
     [HttpGet]
+    [AutoValidateAntiforgeryToken]
     public IActionResult Index()
     {
 	    var users = from e in _db.ApplicationUsers select e;
@@ -34,27 +37,30 @@ public class UserController : Controller
 	    return View(usersDetail);
     }
 
-    public IActionResult ViewCustomer()
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> ViewCustomer()
     {
-	    var user = (from u in _db.ApplicationUsers
+	    var user = await (from u in _db.ApplicationUsers
 		    join userRole in _db.UserRoles on u.Id equals userRole.UserId
 		    join role in _db.Roles on userRole.RoleId equals role.Id
 		    where role.Name == "CUSTOMER"
-		    select u).ToList();
+		    select u).ToListAsync();
 	    return View(user);
     }
     
-    public IActionResult ViewOwner()
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> ViewOwner()
     {
-	    var user = (from u in _db.ApplicationUsers
+	    var user = await (from u in _db.ApplicationUsers
 		    join userRole in _db.UserRoles on u.Id equals userRole.UserId
 		    join role in _db.Roles on userRole.RoleId equals role.Id
 		    where role.Name == "OWNER"
-		    select u).ToList();
+		    select u).ToListAsync();
 	    return View(user);
     }
     
     [HttpPost]
+    [AutoValidateAntiforgeryToken]
     public IActionResult Index(string searchString)
     {
 	    var users = from e in _db.ApplicationUsers select e;
@@ -72,9 +78,10 @@ public class UserController : Controller
     }
 
 	[HttpGet] 
-	public IActionResult ChangeOwnerPassword(string id)
+	[AutoValidateAntiforgeryToken]
+	public async Task<IActionResult> ChangeOwnerPassword(string id)
 	{
-		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == id);
+		var userInDb = await _db.ApplicationUsers.FirstOrDefaultAsync(t => t.Id == id);
 
 		if (_userManager.IsInRoleAsync(userInDb, Role.Owner) != null)
 		{
@@ -88,20 +95,22 @@ public class UserController : Controller
 	}
      
 	[HttpPost]
-	public IActionResult ChangeOwnerPassword(UpdatePassword user)
+	[AutoValidateAntiforgeryToken]
+	public async Task<IActionResult> ChangeOwnerPassword(UpdatePassword user)
 	{
-		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == user.Id);
+		var userInDb = await _db.ApplicationUsers.FirstOrDefaultAsync(t => t.Id == user.Id);
 		
 		userInDb.PasswordHash = _userManager.PasswordHasher.HashPassword(userInDb,user.Password);
-        var result = _userManager.UpdateAsync(userInDb);
+        var result = await _userManager.UpdateAsync(userInDb);
 		// _db.SaveChanges();
 		return RedirectToAction("ViewOwner");
 	}
 	
 	[HttpGet] 
-	public IActionResult ChangeCustomerPassword(string id)
+	[AutoValidateAntiforgeryToken]
+	public async Task<IActionResult> ChangeCustomerPassword(string id)
 	{
-		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == id);
+		var userInDb = await _db.ApplicationUsers.FirstOrDefaultAsync(t => t.Id == id);
 
 		if (_userManager.IsInRoleAsync(userInDb, Role.Customer) != null)
 		{
@@ -115,12 +124,13 @@ public class UserController : Controller
 	}
      
 	[HttpPost]
-	public IActionResult ChangeCustomerPassword(UpdatePassword user)
+	[AutoValidateAntiforgeryToken]
+	public async Task<IActionResult> ChangeCustomerPassword(UpdatePassword user)
 	{
-		var userInDb = _db.ApplicationUsers.FirstOrDefault(t => t.Id == user.Id);
+		var userInDb = await _db.ApplicationUsers.FirstOrDefaultAsync(t => t.Id == user.Id);
 		
 		userInDb.PasswordHash = _userManager.PasswordHasher.HashPassword(userInDb,user.Password);
-		var result = _userManager.UpdateAsync(userInDb);
+		var result = await _userManager.UpdateAsync(userInDb);
 		// _db.SaveChanges();
 		return RedirectToAction("ViewCustomer");
 	}

@@ -2,9 +2,11 @@
 using FPTBook.Data;
 using Microsoft.AspNetCore.Mvc;
 using FPTBook.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FPTBook.Controllers;
 
+[AutoValidateAntiforgeryToken]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -16,10 +18,10 @@ public class HomeController : Controller
         _dbContext = dbContext;
     }
     
-
-    public IActionResult Index()
+    [AutoValidateAntiforgeryToken]
+    public async Task<IActionResult> Index()
     {
-        List<Book> books = _dbContext.Books.ToList();
+        List<Book> books = await _dbContext.Books.ToListAsync();
         return View(books);
     }
 
