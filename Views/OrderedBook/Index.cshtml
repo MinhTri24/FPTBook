@@ -183,11 +183,13 @@
                   &nbsp;
                   <p style="margin: 0; text-align: center">$@total</p>
                 </div>
-                  
-                <a style="padding: 10px" type="button" class="btn btn-primary btn-lg" asp-controller="Order" asp-action="GoCheckOut"
-                   asp-route-id="userId">
-                  Go to checkout
-                </a>
+                @if (@totalQuantity > 0)
+                {
+                  <a style="padding: 10px" type="button" class="btn btn-primary btn-lg" asp-controller="Order" asp-action="GoCheckOut"
+                     asp-route-id="userId">
+                    Go to checkout
+                  </a>
+                }
               </div>
             }
           </div>
