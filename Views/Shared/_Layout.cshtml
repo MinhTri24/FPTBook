@@ -43,20 +43,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="navbar-nav me-auto me-0 pe-0">
-            <li class="nav-item">
-              <a class="nav-link me-0" asp-controller="Home" asp-action="Index">HOME</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link ms-0" asp-controller="Book" asp-action="Index">BOOKS</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link ms-0" asp-controller="Home" asp-action="Help">HELP</a>
-            </li>
             @{
-              if (User.IsInRole(Role.Owner))
+              if (User.IsInRole(Role.Customer))
               {
                 <li class="nav-item">
-                  <a class="nav-link ms-0" asp-controller="Category" asp-action="Index">CATEGORY</a>
+                  <a class="nav-link me-0" asp-controller="Home" asp-action="Index">HOME</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link ms-0" asp-controller="Book" asp-action="Index">BOOKS</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link ms-0" asp-controller="Home" asp-action="Help">HELP</a>
                 </li>
               }
             }

@@ -21,6 +21,7 @@
             class="ref-image active"
             src="@Model.Book.Image"
             data-reflow-preview-type="image"
+            style="margin-top: 20px"
           />
         </div>
       </div>
@@ -73,6 +74,14 @@
                           }, new
                           {
                               @class = "ref-button"
+                          })
+                          @Html.ActionLink("Back", "Index", "Book", new
+                          {
+                              
+                          }, new
+                          {
+                              @class = "ref-button",
+                              @style = "margin-left: 10px"
                           })
                       }
                   }

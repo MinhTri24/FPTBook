@@ -10,15 +10,19 @@
 }
 
 <div class="pe-0" style="display: flex; justify-content: space-around; ">
-    <a class="btn btn-dark ps-1 pe-1 mt-2 mb-2 me-2 ms-2 pt-2 pb-2" role="button" style="margin-right: 4px"
-        asp-controller="Book" asp-action="Create">Create New</a>
+    @if (User.IsInRole(Role.Owner))
+    {
+        <a class="btn btn-dark ps-1 pe-1 mt-2 mb-2 me-2 ms-2 pt-2 pb-2" role="button" style="margin-right: 4px"
+           asp-controller="Book" asp-action="Create">Create New</a>
+    }
+    
     <form asp-controller="Book" asp-action="Index" style="height: fit-content; margin-top: auto;">
         <p>
             <select asp-for="BookCategory" asp-items="Model.Categories">
                 <option value="">All</option>
             </select>
-            Title: <input type="text" asp-for="SearchString" />
-            <input type="submit" value="Filter" />
+            Title: <input type="text" asp-for="SearchString"/>
+            <input type="submit" value="Filter"/>
         </p>
     </form>
 </div>

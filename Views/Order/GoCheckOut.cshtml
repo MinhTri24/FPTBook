@@ -52,29 +52,26 @@
                                 </tr>
                             }
                         }
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>Total Price: $@totalPrice</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <div class="d-flex justify-content-end">
-                                <td>
-                                    <a style="padding: 10px" class="btn btn-light btn-lg me-2" asp-controller="Book"
-                                        asp-action="Index">Back to shopping</a>
-                                </td>
-                                <td><button style="padding: 10px" type="button" class="btn btn-primary btn-lg">Checkout
-                                        @Html.ActionLink("Checkout", "CheckOut", "Order", new
-                                        {
-                                        userId,
-                                        totalPrice
-                                        })
-                                    </button>
-                                </td>
-                            </div>
-                        </tr>
+                    <tr class="text-center">
+                        <td></td>
+                        <div class="d-flex justify-content-end">
+                            <td>
+                                <a style="padding: 10px" class="btn btn-light btn-lg me-2" asp-controller="Book"
+                                   asp-action="Index">Back</a>
+                            </td>
+                            <td style="vertical-align: middle; text-align: center">Total Price: $@totalPrice</td>
+                            <td>
+                                @Html.ActionLink("Checkout" , "CheckOut", "Order", new
+                                {
+                                    userId,
+                                    totalPrice
+                                }, new
+                                {
+                                    @class = "btn btn-primary"
+                                })
+                            </td>
+                        </div>
+                    </tr>
                     </tbody>
                 </table>
             </div>
