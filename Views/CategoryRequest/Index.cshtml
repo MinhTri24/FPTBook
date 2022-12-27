@@ -1,7 +1,7 @@
 ﻿@model List<FPTBook.Models.CategoryRequest>
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Category Request";
     Layout = "_Layout";
 }
 
@@ -15,7 +15,11 @@
                         <th id="trs-hd-1" class="col-lg-1">No.</th>
                         <th id="trs-hd-2" class="col-lg-3">NAME</th>
                         <th id="trs-hd-3" class="col-lg-2">Created at</th>
-                        <th id="trs-hd-4" class="col-lg-2">Action</th>
+                        @if (User.IsInRole(Role.Admin))
+                        {
+                            <th id="trs-hd-4" class="col-lg-2">Action</th>
+                        }
+                        
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -31,14 +35,17 @@
                             <td><span
                                 style="color: rgb(33, 37, 41); background-color: var(--bs-table-bg);">@Html.DisplayFor(modelItem
                                 => item.CreatedAt)</span><br></td>
-                            <td>
-                                <a class="btn btn-success" asp-action="Confirm" asp-route-id="@item.Id" onclick="return alert('Request has been approved')">
-                                    <i class="fas fa-edit" style="font-size: 15px"></i>
-                                </a>
-                                <a class="btn btn-danger" asp-action="Reject" asp-route-id="@item.Id" onclick="return alert('Request has been rejected')">
-                                    <i class="fa fa-trash" style="font-size: 15px"></i>
-                                </a>
-                            </td>
+                            @if (User.IsInRole(Role.Admin))
+                            {
+                                <td>
+                                    <a class="btn btn-success" asp-action="Confirm" asp-route-id="@item.Id" onclick="return alert('Request has been approved')">
+                                        <i class="fas fa-edit" style="font-size: 15px"></i>
+                                    </a>
+                                    <a class="btn btn-danger" asp-action="Reject" asp-route-id="@item.Id" onclick="return alert('Request has been rejected')">
+                                        <i class="fa fa-trash" style="font-size: 15px"></i>
+                                    </a>
+                                </td>
+                            }
                         </tr>
                     }
                 </tbody>
